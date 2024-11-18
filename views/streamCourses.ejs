@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Course Video Player</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap");
+
+      * {
+        font-family: "Libre Baskerville", serif;
+        box-sizing: border-box;
+      }
+
+      .sec2 {
+        background: url("/imgs/backgrounds/bg1.png");
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .fullscreen-video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      /* Custom close button for responsiveness */
+      .fullscreen-video .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: rgba(255, 0, 0);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        padding: 12px;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .fullscreen-video .close-btn:hover {
+        background-color: rgba(255, 0, 0, 0.8);
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-50">
+    <div
+      class="w-full flex justify-around items-center bg-gradient-to-b from-red-700 via-red-900 to-red-900 text-white px-6 py-4"
+    >
+      <a href="/" class="logo flex items-center">
+        <img
+          class="h-12 md:h-16 w-auto"
+          src="/imgs/extras/logo.png"
+          alt="Astro Sachin Lohia"
+        />
+      </a>
+
+      <div class="flex items-center md:space-x-4">
+        <% if (loggedIn) { %>
+        <div class="hidden md:flex items-center space-x-4">
+          <a href="/call-consulting"
+            class="text-white bg-yellow-500 rounded-full text-xs md:text-sm px-2 py-1 md:px-4 md:py-2"
+          >
+            Get Consultation
+          </a>
+
+          <div class="bg-blue-500 flex rounded-full md:px-4 md:py-2">
+            <span class="flex items-center text-2xl">
+              <ion-icon name="person-circle"></ion-icon>
+            </span>
+
+            <p class="font-semibold"><%= user.username %></p>
+          </div>
+
+          <form action="/auth/logout" method="post">
+            <button
+              type="submit"
+              class="text-blue-200 text-lg hover:text-red-100 transition-colors duration-150"
+            >
+              Logout
+            </button>
+          </form>
+        </div>
+
+        <a href="/call-consulting"
+          class="md:hidden text-white bg-yellow-500 rounded-full px-2 py-1 md:px-4 md:py-2"
+        >
+          Get Consultation
+        </a>
+
+        <% } else { %>
+        <a href="/call-consulting"
+          class="text-white bg-yellow-500 rounded-full px-2 py-1 md:px-4 md:py-2"
+        >
+          Get Consultation
+        </a>
+        <a
+          href="/signin"
+          class="hover:text-gray-200 bg-white rounded-full px-2 py-1 md:px-4 md:py-2 text-red-900 font-semibold transition-colors duration-200 text-sm font-medium"
+        >
+          Login
+        </a>
+
+        <% } %>
+      </div>
+      <div class="hidden md:flex gap-4">
+        <a
+          href="https://www.facebook.com/vedikastrologygurukulcourses/"
+          class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+        >
+          <ion-icon name="logo-facebook"></ion-icon>
+        </a>
+        <a
+          href="https://www.youtube.com/@sachinlohiaastrologer"
+          class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+        >
+          <ion-icon name="logo-youtube"></ion-icon>
+        </a>
+        <a
+          href="https://www.instagram.com/vediikastrologygurukul/"
+          class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+        >
+          <ion-icon name="logo-instagram"></ion-icon>
+        </a>
+        <a
+          href="https://www.instagram.com/vediikastrologygurukul/"
+          class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+        >
+        <ion-icon name="call"></ion-icon>
+        </a>
+        
+      </div>
+    </div>
+
+
+    <nav class="sticky top-0 w-full bg-white shadow-md z-50">
+      <div class="container mx-auto px-4">
+        <div class="hidden lg:flex items-center justify-center space-x-8 py-1">
+          <a
+            href="/"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Home</a
+          >
+          <a
+            href="/"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Report</a
+          >
+          <a
+            href="/"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Courses</a
+          >
+          <a
+            href="/stream"
+            class="text-orange-500 pb-1 border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Watch Courses</a
+          >
+          <a
+            href="/call-consulting"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Call Consultation</a
+          >
+          <a
+            href="/calc"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Free Calculator</a
+          >
+          <a
+            href="/about"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >About</a
+          >
+          <a
+            href="/contact-us"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Contact Us</a
+          >
+        </div>
+
+        <div class="lg:hidden flex items-center justify-between py-4">
+          <a href="" class="text-gray-700 font-medium">Menu</a>
+          <button
+            id="menuBtn"
+            class="text-gray-700 hover:text-red-900 focus:outline-none"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                class="menuIcon"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+              <path
+                class="closeIcon hidden"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div
+          id="mobileMenu"
+          class="nav-menu hidden lg:hidden absolute top-full left-0 right-0 bg-white shadow-lg"
+        >
+          <div class="flex flex-col space-y-4 px-4 py-6">
+            <a
+              href="/"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Home</a
+            >
+            <a
+              href="/"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Report</a
+            >
+            <a
+              href="/courses"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Courses</a
+            >
+            <a
+              href="/stream"
+              class="text-orange-500 pb-1 border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Watch Courses</a
+            >
+            <a
+              href="/call-consulting"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Call Consultation</a
+            >
+            <a
+              href="/calc"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Free Calculator</a
+            >
+            <a
+              href="/about"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >About</a
+            >
+            <a
+              href="/contact-us"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Contact Us</a
+            >
+            <% if (loggedIn) { %>
+              <form action="/auth/logout" method="post">
+                <button
+                  type="submit"
+                  class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+                >
+                  Logout
+                </button>
+              </form>
+              <%}%>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <% if (loggedIn) { %>
+    <div class="sec2 min-h-screen bg-cover bg-center py-8">
+      <h1 class="text-4xl font-bold text-center text-red-900 mb-10">
+        Available Courses
+      </h1>
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-6 md:mx-16"
+      >
+        <% user.courses.forEach(course => { %>
+        <div
+          class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+        >
+          <img
+            src="<%= course.thumbnailUrl %>"
+            alt="<%= course.title %> Thumbnail"
+            class="w-full h-48 object-cover"
+          />
+          <div class="p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-2">
+              <%= course.title %>
+            </h2>
+            <button
+              class="text-blue-500 hover:underline"
+              data-video-url="<%= course.videoUrl %>"
+            >
+              Watch Now
+            </button>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+    <% } else { %>
+      <div class="sec2 w-screen min-h-[86vh] flex justify-center items-center text-center">
+        <p class="text-lg">
+          Please
+          <a href="/signin" class="text-blue-300 hover:text-blue-500"
+            >login</a
+          >
+          to access the course content.
+        </p>
+      </div>
+
+    <% } %>
+
+    <a 
+    href="https://wa.me/<your-phone-number>" 
+    target="_blank"
+    class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition duration-300"
+    aria-label="Chat on WhatsApp"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-6 h-6" viewBox="0 0 24 24">
+      <path d="M16.444 14.51c-.298-.149-1.763-.87-2.036-.97-.273-.099-.471-.148-.67.15-.2.298-.769.97-.94 1.168-.173.2-.348.224-.645.075-.298-.15-1.258-.466-2.396-1.48-.884-.785-1.482-1.754-1.656-2.051-.173-.298-.018-.459.13-.608.134-.134.298-.348.447-.521.149-.173.2-.298.298-.497.1-.199.05-.372-.025-.521-.075-.149-.671-1.615-.92-2.216-.242-.582-.487-.503-.671-.512-.173-.007-.372-.009-.572-.009-.2 0-.522.075-.796.373-.273.298-1.044 1.02-1.044 2.48s1.068 2.868 1.216 3.072c.149.199 2.1 3.186 5.077 4.464.71.306 1.263.489 1.696.625.713.227 1.363.195 1.874.118.572-.085 1.762-.718 2.01-1.411.249-.695.249-1.289.174-1.411-.075-.124-.273-.198-.571-.348zm-4.444-14.51c-6.627 0-12 5.373-12 12 0 2.111.537 4.101 1.465 5.848l-1.554 5.66 5.818-1.525c1.697.927 3.616 1.467 5.61 1.467 6.627 0 12-5.373 12-12s-5.373-12-12-12z"/>
+    </svg>
+  </a>
+
+    <div id="fullscreen-video" class="fullscreen-video hidden">
+      <div class="relative w-full h-full">
+        <video id="video-player" controls class="w-full h-full object-cover">
+          Your browser does not support the video tag.
+        </video>
+        <button id="close-video" class="close-btn">X</button>
+      </div>
+    </div>
+    <script src="/javascripts/indexScript.js"></script>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+    <script>
+      const courseListButtons = document.querySelectorAll("[data-video-url]");
+
+      courseListButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const videoUrl = button.getAttribute("data-video-url");
+          openVideoPlayer(videoUrl);
+        });
+      });
+
+      function openVideoPlayer(videoUrl) {
+        const fullscreenVideo = document.getElementById("fullscreen-video");
+        const videoPlayer = document.getElementById("video-player");
+        fullscreenVideo.classList.remove("hidden");
+        videoPlayer.src = videoUrl;
+        videoPlayer.play();
+      }
+
+      const closeButton = document.getElementById("close-video");
+      closeButton.addEventListener("click", () => {
+        const fullscreenVideo = document.getElementById("fullscreen-video");
+        const videoPlayer = document.getElementById("video-player");
+        fullscreenVideo.classList.add("hidden");
+        videoPlayer.pause();
+        videoPlayer.currentTime = 0;
+      });
+    </script>
+  </body>
+</html>

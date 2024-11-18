@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Numerology Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+      integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Handlee&family=Kalam:wght@300;400;700&family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&display=swap");
+
+      .page {
+        background: url("/imgs/backgrounds/bg.jpg") center center no-repeat;
+        background-size: cover;
+        color: #8b0000;
+        box-sizing: border-box;
+      }
+
+      .kalam {
+        font-family: "Kalam", cursive !important;
+      }
+
+      .Handlee {
+        font-family: "Handlee", cursive !important;
+        font-weight: 400;
+      }
+
+      .section {
+        padding: 1rem;
+        border-radius: 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        background-color: white;
+      }
+
+      .vedic-cell {
+        background: rgba(255, 255, 0, 0.2);
+        transition: transform 0.2s;
+      }
+
+      .vedic-cell:hover {
+        transform: scale(1.05);
+        background: rgba(255, 255, 0, 0.4);
+      }
+
+      h1,
+      h2 {
+        color: #8b0000;
+      }
+
+      @media print {
+        .no-print {
+          display: none;
+        }
+        .page {
+          page-break-after: always;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="flex flex-col items-center font-sans">
+    <nav class="sticky no-print top-0 w-full bg-white shadow-md z-50">
+      <div class="container mx-auto px-4">
+        <div class="hidden lg:flex items-center justify-center space-x-8 py-1">
+          <a
+            href="/"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Home</a
+          >
+          <a
+            href="/"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Report</a
+          >
+          <a
+            href="/courses"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Courses</a
+          >
+          <a
+            href="/stream"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Watch Courses</a
+          >
+          <a
+            href="/call-consulting"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Call Consultation</a
+          >
+          <a
+            href="/calc"
+            class="text-orange-500 pb-1 border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Free Calculator</a
+          >
+          <a
+            href="/about"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >About</a
+          >
+          <a
+            href="/contact-us"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Contact Us</a
+          >
+        </div>
+
+        <div class="lg:hidden flex items-center justify-between py-4">
+          <a href="" class="text-gray-700 font-medium">Menu</a>
+          <button
+            id="menuBtn"
+            class="text-gray-700 hover:text-red-900 focus:outline-none"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                class="menuIcon"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+              <path
+                class="closeIcon hidden"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div
+          id="mobileMenu"
+          class="nav-menu hidden lg:hidden absolute top-full left-0 right-0 bg-white shadow-lg"
+        >
+          <div class="flex flex-col space-y-4 px-4 py-6">
+            <a
+              href="/"
+              class="text-orange-500 pb-1 border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Home</a
+            >
+            <a
+              href="/"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Report</a
+            >
+            <a
+              href="/courses"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Courses</a
+            >
+            <a
+              href="/stream"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Watch Courses</a
+            >
+            <a
+              href="/call-consulting"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Call Consultation</a
+            >
+            <a
+              href="/calc"
+              class="text-orange-500 pb-1 border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Free Calculator</a
+            >
+            <a
+              href="/about"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >About</a
+            >
+            <a
+              href="/contact-us"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Contact Us</a
+            >
+
+            <% if (loggedIn) { %>
+            <form action="/auth/logout" method="post">
+              <button
+                type="submit"
+                class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >
+                Logout
+              </button>
+            </form>
+            <%}%>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="body">
+      <div
+        id="page1"
+        class="page-1 kalam page min-h-[95vh] section max-w-2xl w-full px-10 py-20 print:px-20 md:px-20 flex flex-col items-center"
+      >
+        <div class="logo">
+          <h1 class="text-extrabold text-center text-2xl md:text-4xl mb-10">
+            <span class="text-blue-800">Vediik Astrology</span> <br />
+            <span class="text-red-700">Gurukul</span>
+          </h1>
+        </div>
+        <h1
+          class="md:text-2xl text-xl font-bold text-center print:mb-7 md:mb-14 px-0 md:px-20"
+        >
+          Numerology Report for
+          <span class="capitalize" id="displayName"></span> <br />
+          Mobile: <span id="displayPhone"></span>
+        </h1>
+        <img
+          src="/imgs/extras/god.jpg"
+          alt="Hanuman Ji and Khatushyam Ji"
+          class="mb-10 md:mb-20 md:w-96 w-52 print:w-96 h-auto rounded-lg"
+        />
+        <p class="print:text-xl md:text-xl md:mb-0 text-md text-[#8B0000]">
+          "ॐ श्री हनुमते नमः | श्री श्याम सुंदराय नमः"
+        </p>
+      </div>
+
+      <div
+        class="page kalam min-h-[95vh] bg-white section max-w-2xl w-full px-10 py-20 print:px-20 md:px-20"
+        id="page-15"
+      >
+        <h1 class="text-3xl font-bold mb-4 text-[#8B0000]">
+          अंकों का पुनरावृत्ति और उनके उपाय
+        </h1>
+        <p class="text-lg mb-2">
+          आपके मोबाइल नंबर में जो अंक दोहराते हैं और उनके उपाय:
+        </p>
+
+        <p class="text-md font-semibold text-red-600 mb-2">
+          ध्यान दें: किसी भी अंक की पुनरावृत्ति जीवन में समस्याएँ उत्पन्न कर
+          सकती है।
+        </p>
+
+        <div id="repeatedNumbersRemediesH" class="text-left"></div>
+      </div>
+
+      <div
+        class="page-6 Handlee page section max-w-2xl w-full min-h-[95vh] px-10 py-20 print:px-20 md:px-20"
+        id="page6"
+      >
+        <h1 class="text-3xl text-center font-bold mb-4">
+          Repetitions of Numbers & Their Remedies
+        </h1>
+        <p class="text-lg text-center mb-4">
+          Numbers that repeat in your mobile number and their remedies:
+        </p>
+
+        <p class="text-md font-semibold text-center text-red-600 mb-4">
+          Note: Repetition of any number may lead to challenges in life.
+        </p>
+
+        <div id="repeatedNumbersRemedies" class="text-left"></div>
+      </div>
+    </div>
+
+    <button
+      id="downloadBtn"
+      class="no-print px-3 py-2 bg-blue-400 my-10 rounded-lg text-white"
+    >
+      Download Numerology Report
+    </button>
+
+    <script src="/javascripts/calc.js"></script>
+  </body>
+</html>

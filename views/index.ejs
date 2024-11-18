@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Astro Sachin Pandit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap");
+
+      * {
+        font-family: "Libre Baskerville", serif;
+        box-sizing: border-box;
+      }
+
+      .nav-menu {
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .nav-menu.hidden {
+        transform: translateX(100%);
+      }
+
+      .carousel-item {
+        min-width: 100%;
+        transition: transform 0.5s ease;
+      }
+
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      .sec2 {
+        background: url("/imgs/backgrounds/bg1.png");
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+
+      .sec3 {
+        background: url("/imgs/backgrounds/bg1.png");
+        background-position: initial;
+        background-size: contain;
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .icon-rotate {
+        animation: rotate 20s linear infinite;
+      }
+
+      .icon-rotate:hover {
+        animation-duration: 5s;
+      }
+
+      .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+      }
+
+      .faq-answer.active {
+        max-height: 500px;
+        transition: max-height 0.5s ease-in;
+      }
+
+      .arrow-icon {
+        transition: transform 0.3s ease;
+      }
+
+      .arrow-icon.active {
+        transform: rotate(180deg);
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-100">
+    <div
+      class="w-full flex justify-around items-center bg-gradient-to-b from-red-700 via-red-900 to-red-900 text-white px-6 py-4"
+    >
+      <a href="/" class="logo flex items-center">
+        <img
+          class="h-12 md:h-16 w-auto"
+          src="/imgs/extras/logo.png"
+          alt="Astro Sachin Lohia"
+        />
+      </a>
+
+      <div class="flex items-center md:space-x-4">
+        <% if (loggedIn) { %>
+        <div class="hidden md:flex items-center space-x-4">
+          <a
+            href="/call-consulting"
+            class="text-white bg-yellow-500 rounded-full text-xs md:text-sm px-2 py-1 md:px-4 md:py-2"
+          >
+            Get Consultation
+          </a>
+
+          <div class="bg-blue-500 flex rounded-full md:px-4 md:py-2">
+            <span class="flex items-center text-2xl">
+              <ion-icon name="person-circle"></ion-icon>
+            </span>
+
+            <p class="font-semibold"><%= user.username %></p>
+          </div>
+
+          <form action="/auth/logout" method="post">
+            <button
+              type="submit"
+              class="text-blue-200 text-lg hover:text-red-100 transition-colors duration-150"
+            >
+              Logout
+            </button>
+          </form>
+        </div>
+
+        <a
+          href="/call-consulting"
+          class="md:hidden text-white bg-yellow-500 rounded-full px-2 py-1 md:px-4 md:py-2"
+        >
+          Get Consultation
+        </a>
+
+        <% } else { %>
+        <a
+          href="/call-consulting"
+          class="text-white bg-yellow-500 rounded-full px-2 py-1 md:px-4 md:py-2"
+        >
+          Get Consultation
+        </a>
+        <a
+          href="/signin"
+          class="hover:text-gray-200 bg-white rounded-full px-2 py-1 md:px-4 md:py-2 text-red-900 font-semibold transition-colors duration-200 text-sm font-medium"
+        >
+          Login
+        </a>
+
+        <% } %>
+      </div>
+      <div class="hidden md:flex gap-4">
+        <a
+          href="https://www.facebook.com/vedikastrologygurukulcourses/"
+          class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+        >
+          <ion-icon name="logo-facebook"></ion-icon>
+        </a>
+        <a
+          href="https://www.youtube.com/@sachinlohiaastrologer"
+          class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+        >
+          <ion-icon name="logo-youtube"></ion-icon>
+        </a>
+        <a
+          href="https://www.instagram.com/vediikastrologygurukul/"
+          class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+        >
+          <ion-icon name="logo-instagram"></ion-icon>
+        </a>
+        <a
+          href="tel:+919105153366"
+          class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+        >
+          <ion-icon name="call"></ion-icon>
+        </a>
+      </div>
+    </div>
+
+    <nav class="sticky top-0 w-full bg-white shadow-md z-50">
+      <div class="container mx-auto px-4">
+        <div class="hidden lg:flex items-center justify-center space-x-8 py-1">
+          <a
+            href="/"
+            class="text-orange-500 pb-1 border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Home</a
+          >
+          <a
+            href="/"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Report</a
+          >
+          <a
+            href="/courses"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Courses</a
+          >
+          <a
+            href="/stream"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Watch Courses</a
+          >
+          <a
+            href="/call-consulting"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Call Consultation</a
+          >
+          <a
+            href="/calc"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Free Calculator</a
+          >
+          <a
+            href="/about"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >About</a
+          >
+          <a
+            href="/contact-us"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Contact Us</a
+          >
+        </div>
+
+        <div class="lg:hidden flex items-center justify-between py-4">
+          <a href="" class="text-gray-700 font-medium">Menu</a>
+          <button
+            id="menuBtn"
+            class="text-gray-700 hover:text-red-900 focus:outline-none"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                class="menuIcon"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+              <path
+                class="closeIcon hidden"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div
+          id="mobileMenu"
+          class="nav-menu hidden lg:hidden absolute top-full left-0 right-0 bg-white shadow-lg"
+        >
+          <div class="flex flex-col space-y-4 px-4 py-6">
+            <a
+              href="/"
+              class="text-orange-500 pb-1 border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Home</a
+            >
+            <a
+              href="/"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Report</a
+            >
+            <a href="/courses" class="">Courses</a>
+            <a
+              href="/stream"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Watch Courses</a
+            >
+            <a
+              href="/call-consulting"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Call Consultation</a
+            >
+            <a
+              href="/calc"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Free Calculator</a
+            >
+            <a
+              href="/about"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >About</a
+            >
+            <a
+              href="/contact-us"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Contact Us</a
+            >
+
+            <% if (loggedIn) { %>
+            <form action="/auth/logout" method="post">
+              <button
+                type="submit"
+                class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >
+                Logout
+              </button>
+            </form>
+            <%}%>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <section class="carousel relative overflow-hidden">
+      <div
+        class="flex transition-transform ease-out duration-500 lg:flex hidden"
+        id="desktopCarousel"
+      >
+        <div
+          class="carousel-item text-white flex items-center justify-center w-screen h-full"
+        >
+          <a href="https://wa.me/+919408618999" target="_blank">
+            <img src="/imgs/carousel/img1pc.png" alt="img1" />
+          </a>
+        </div>
+        <div
+          class="carousel-item text-white flex items-center justify-center w-screen h-full"
+        >
+          <a href="https://wa.me/+919408618999" target="_blank">
+            <img src="/imgs/carousel/img2pc.png" alt="img2" />
+          </a>
+        </div>
+        <div
+          class="carousel-item text-white flex items-center justify-center w-screen h-full"
+        >
+          <a href="https://wa.me/+919408618999" target="_blank">
+            <img src="/imgs/carousel/img3pc.png" alt="img3" />
+          </a>
+        </div>
+      </div>
+
+      <div
+        class="flex transition-transform ease-out duration-500 md:flex lg:hidden"
+        id="mobileCarousel"
+      >
+        <div
+          class="carousel-item text-white flex items-center justify-center w-screen h-full"
+        >
+          <a href="https://wa.me/+919408618999" target="_blank">
+            <img src="/imgs/carousel/img1m.png" alt="img1" />
+          </a>
+        </div>
+        <div
+          class="carousel-item text-white flex items-center justify-center w-screen h-full"
+        >
+          <a href="https://wa.me/+919408618999" target="_blank">
+            <img src="/imgs/carousel/img2m.png" alt="img2" />
+          </a>
+        </div>
+        <div
+          class="carousel-item text-white flex items-center justify-center w-screen h-full"
+        >
+          <a href="https://wa.me/+919408618999" target="_blank">
+            <img src="/imgs/carousel/img3m.png" alt="img3" />
+          </a>
+        </div>
+      </div>
+
+      <button
+        onclick="prevSlide()"
+        class="absolute flex items-center left-0 top-1/2 transform -translate-y-1/2 text-4xl text-yellow-500 p-2 rounded-full"
+      >
+        <ion-icon name="chevron-back"></ion-icon>
+      </button>
+      <button
+        onclick="nextSlide()"
+        class="absolute flex items-center right-0 top-1/2 transform -translate-y-1/2 text-4xl text-yellow-500 p-2 rounded-full"
+      >
+        <ion-icon name="chevron-forward"></ion-icon>
+      </button>
+    </section>
+
+    <section class="sec2 pt-20">
+      <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <h1 class="text-4xl font-bold text-center text-red-900 mb-12">
+          Free Calculators
+        </h1>
+
+        <div
+          class="flex justify-center w-full gap-6 justify-center items-center"
+        >
+          <div
+            class="bg-orange-100 max-w-2xl rounded-lg shadow-md p-6 hover:shadow-xl transition-shadow"
+          >
+            <div class="w-full flex items-center space-x-6">
+              <div class="h-24 flex-shrink-0">
+                <img
+                  class="h-full object-contain icon-rotate"
+                  src="/imgs/icons/icon4.svg"
+                  alt=""
+                />
+              </div>
+              <div class="flex-grow">
+                <h2 class="text-2xl font-semibold text-red-900 mb-2">
+                  Free Numerology Calculator
+                </h2>
+                <p class="text-gray-600 mb-4">With Predictions & Remedies</p>
+                <form
+                  action="/usedCalculator"
+                  method="post"
+                  id="userForm"
+                  class="mb-4 space-y-4"
+                >
+                  <div>
+                    <label
+                      for="name"
+                      class="block text-gray-700 font-medium mb-1"
+                    >
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      placeholder="Enter your name"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      for="phone"
+                      class="block text-gray-700 font-medium mb-1"
+                    >
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      placeholder="Enter your phone number"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    id="calculateBtn"
+                    class="bg-orange-500 text-white px-6 py-2 rounded-md hover:bg-orange-600 transition-colors w-full"
+                  >
+                    Submit
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <div>
+            <h2 class="text-3xl font-bold text-red-900 mb-6">
+              Book a Consultation Call with Pandit Sachin Lohia, One of the Best
+              Astrologers in India!
+            </h2>
+            <p class="text-gray-700 mb-8">
+              Book a consultation with Pandit Sachin Lohia, one of India's most
+              trusted astrologers. With over 50 years of experience, he offers
+              expert guidance through astrology, Kundali readings, numerology,
+              palmistry, and more. Pandit Ji’s deep knowledge of ancient Vedic
+              science helps individuals find clarity, solve life’s challenges,
+              and achieve personal growth. Get in touch today and discover the
+              wisdom that can transform your life.
+            </p>
+
+            <a
+              href="/call-consulting"
+              class="bg-orange-500 text-white px-8 py-3 rounded-md hover:bg-orange-600 transition-colors text-lg font-semibold"
+            >
+              Book Now
+            </a>
+          </div>
+          <div class="lg:pl-8">
+            <img
+              src="/imgs/extras/poster.png"
+              alt="Consultation"
+              class="rounded-lg shadow-xl w-full"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec2 py-16 pt-10">
+      <div class="max-w-6xl mx-auto px-4">
+        <h2
+          class="text-3xl md:text-4xl font-semibold text-center text-red-900 mb-10"
+        >
+          Our Services
+        </h2>
+
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div
+            class="bg-white flex flex-col justify-between rounded-lg shadow-lg p-6 text-center"
+          >
+            <div class="flex items-center justify-center mb-4">
+              <div class="bg-orange-500 rounded-full p-4">
+                <img
+                  src="/imgs/icons/icon1.webp"
+                  alt="Astrology Icon"
+                  class="h-10 w-10"
+                />
+              </div>
+            </div>
+            <h3 class="text-xl font-bold text-red-900 mb-2">Mega Webinar</h3>
+            <p class="text-gray-600 mb-4">
+              1 Day Live Astrology Webinar on Zoom
+            </p>
+            <a
+              href="/"
+              class="bg-red-700 hover:bg-red-900 text-white rounded-full px-4 py-2"
+              >Visit</a
+            >
+          </div>
+
+          <div
+            class="bg-white flex flex-col justify-between rounded-lg shadow-lg p-6 text-center"
+          >
+            <div class="flex items-center justify-center mb-4">
+              <div class="bg-orange-500 rounded-full p-4">
+                <img
+                  src="/imgs/icons/icon2.webp"
+                  alt="Numerology Icon"
+                  class="h-10 w-10"
+                />
+              </div>
+            </div>
+            <h3 class="text-xl font-bold text-red-900 mb-2">Courses</h3>
+            <p class="text-gray-600 mb-4">Will Get Access to Video</p>
+            <a
+              href="/courses"
+              class="bg-red-700 hover:bg-red-900 text-white rounded-full px-4 py-2"
+              >Visit</a
+            >
+          </div>
+
+          <div
+            class="bg-white flex flex-col justify-between rounded-lg shadow-lg p-6 text-center"
+          >
+            <div class="flex items-center justify-center mb-4">
+              <div class="bg-orange-500 rounded-full p-4">
+                <img
+                  src="/imgs/icons/icon3.webp"
+                  alt="Consultation Icon"
+                  class="h-10 w-10"
+                />
+              </div>
+            </div>
+            <h3 class="text-xl font-bold text-red-900 mb-2">
+              Book Consultation Call
+            </h3>
+            <p class="text-gray-600 mb-4">
+              Personalized guidance on life, love, career, business, money
+            </p>
+            <a
+              href="/call-consulting"
+              class="bg-red-700 hover:bg-red-900 text-white rounded-full px-4 py-2"
+              >Visit</a
+            >
+          </div>
+
+          <div
+            class="bg-white flex flex-col justify-between rounded-lg shadow-lg p-6 text-center"
+          >
+            <div class="flex items-center justify-center mb-4">
+              <div class="bg-orange-500 rounded-full p-4">
+                <img
+                  src="/imgs/icons/icon2.webp"
+                  alt="Kundali Icon"
+                  class="h-10 w-10"
+                />
+              </div>
+            </div>
+            <h3 class="text-xl font-bold text-red-900 mb-2">
+              Numerology Report
+            </h3>
+            <p class="text-gray-600 mb-4">
+              You'll get Fully managed Numerology report generated by your phone
+              number
+            </p>
+            <a
+              href="https://rzp.io/rzp/sXS2EzU"
+              class="bg-red-700 hover:bg-red-900 text-white rounded-full px-4 py-2"
+              >Visit</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec2 max-w-screen mx-auto px-4 py-16 flex justify-center">
+      <div class="max-w-6xl">
+        <div class="text-center lg:text-left w-full">
+          <h2 class="text-3xl text-center font-semibold text-red-900">
+            Astrology: Your Guide To Life's Journey & Path To Success!
+          </h2>
+          <p class="text-gray-600 text-center mt-4">
+            We believe astrology is pure science, and we aim to create a social
+            impact by guiding you through the knowledge of astrology, kundali,
+            and more. Join our 50+ years of legacy in the field.
+          </p>
+          <div class="mt-6 w-full flex-col flex items-center gap-1">
+            <p class="text-lg font-bold text-center text-red-900">
+              50+ Years Of Legacy
+            </p>
+            <p class="text-gray-500 text-center">
+              With Horoscope, Kundali, And Predictions
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-red-900">
+      <div class="sec3 py-16">
+        <div
+          class="max-w-6xl mx-auto px-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 text-center text-white"
+        >
+          <div class="bg-orange-100 p-3 rounded-full text-red-900">
+            <p class="text-3xl font-bold"><span id="counter1"></span>k+</p>
+            <p>Kundli Served</p>
+          </div>
+          <div class="bg-orange-100 p-3 rounded-full text-red-900">
+            <p class="text-3xl font-bold"><span id="counter2"></span>+</p>
+            <p>Years Of Legacy</p>
+          </div>
+          <div class="bg-orange-100 p-3 rounded-full text-red-900">
+            <p class="text-3xl font-bold"><span id="counter3"></span>k+</p>
+            <p>Students Enrolled</p>
+          </div>
+          <div class="bg-orange-100 p-3 rounded-full text-red-900">
+            <p class="text-3xl font-bold"><span id="counter4"></span>k+</p>
+            <p>Consultations Given</p>
+          </div>
+          <div class="bg-orange-100 p-3 rounded-full text-red-900">
+            <p class="text-3xl font-bold"><span id="counter5"></span>+</p>
+            <p>Languages For Reports</p>
+          </div>
+          <div class="bg-orange-100 p-3 rounded-full text-red-900">
+            <p class="text-3xl font-bold"><span id="counter6"></span>+</p>
+            <p>Awards in Occult Field</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-10 max-w-6xl mx-auto mb-20 p-4">
+      <h1
+        class="text-3xl md:text-4xl font-serif font-semibold text-center text-red-900 mb-8 md:mb-12"
+      >
+        Explore Our Courses
+      </h1>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+          <img
+            src="/imgs/thumbnails/lk.png"
+            alt="Advanced Astrology Course"
+            class="w-full h-48 object-contain"
+          />
+          <div class="p-4">
+            <div class="flex justify-between items-center mb-4">
+              <div class="flex items-center">
+                <svg
+                  class="w-6 h-6 text-red-900"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                  <path
+                    fill-rule="evenodd"
+                    d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                <span class="ml-2 text-sm text-red-900">Lal Khitab</span>
+              </div>
+            </div>
+            <a
+              href="https://rzp.io/rzp/MUdy7i32"
+              class="w-full bg-red-900 text-white py-2 px-4 rounded-md hover:bg-red-800 transition duration-300"
+            >
+              Enroll Now
+            </a>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+          <img
+            src="/imgs/thumbnails/nc.png"
+            alt="Advanced Numerology Course"
+            class="w-full h-48 object-contain"
+          />
+          <div class="p-4">
+            <div class="flex justify-between items-center mb-4">
+              <div class="flex items-center">
+                <svg
+                  class="w-6 h-6 text-red-900"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                  <path
+                    fill-rule="evenodd"
+                    d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                <span class="ml-2 text-sm text-red-900">Numerology Course</span>
+              </div>
+            </div>
+            <a
+              href="https://rzp.io/rzp/Xdktkgbg"
+              class="w-full bg-red-900 text-white py-2 px-4 rounded-md hover:bg-red-800 transition duration-300"
+            >
+              Enroll Now
+            </a>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+          <img
+            src="/imgs/thumbnails/va.png"
+            alt="Lal Kitab Course"
+            class="w-full h-48 object-contain"
+          />
+          <div class="p-4">
+            <div class="flex justify-between items-center mb-4">
+              <div class="flex items-center">
+                <svg
+                  class="w-6 h-6 text-red-900"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                  <path
+                    fill-rule="evenodd"
+                    d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                <span class="ml-2 text-sm text-red-900">Vedic Astrology</span>
+              </div>
+            </div>
+            <a
+              href="https://rzp.io/rzp/TuDFhUC"
+              class="w-full bg-red-900 text-white py-2 px-4 rounded-md hover:bg-red-800 transition duration-300"
+            >
+              Enroll Now
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-red-900 rounded-lg">
+        <div class="sec3 p-8">
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            <div class="flex flex-col items-center text-center text-white">
+              <div class="bg-white p-4 rounded-full mb-3">
+                <svg
+                  class="w-8 h-8 text-red-900"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"
+                  ></path>
+                </svg>
+              </div>
+              <h3 class="text-sm font-medium">Licensed Guide</h3>
+            </div>
+
+            <div class="flex flex-col items-center text-center text-white">
+              <div class="bg-white p-4 rounded-full mb-3">
+                <svg
+                  class="w-8 h-8 text-red-900"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z"
+                  ></path>
+                </svg>
+              </div>
+              <h3 class="text-sm font-medium">Gemstone Activation</h3>
+            </div>
+
+            <div class="flex flex-col items-center text-center text-white">
+              <div class="bg-white p-4 rounded-full mb-3">
+                <svg
+                  class="w-8 h-8 text-red-900"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </div>
+              <h3 class="text-sm font-medium">Authentic Products</h3>
+            </div>
+
+            <div class="flex flex-col items-center text-center text-white">
+              <div class="bg-white flex justify-center p-4 rounded-full mb-3">
+                <ion-icon class="w-7 h-7 text-red-900" name="card"></ion-icon>
+              </div>
+              <h3 class="text-sm font-medium">Best Pricing</h3>
+            </div>
+
+            <div class="flex flex-col items-center text-center text-white">
+              <div class="bg-white p-4 rounded-full mb-3">
+                <svg
+                  class="w-8 h-8 text-red-900"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </div>
+              <h3 class="text-sm font-medium">Astrologically Verified</h3>
+            </div>
+            <div class="flex flex-col items-center text-center text-white">
+              <div class="bg-white flex justify-center p-4 rounded-full mb-3">
+                <ion-icon class="w-7 h-7 text-red-900" name="apps"></ion-icon>
+              </div>
+              <h3 class="text-sm font-medium">Wide Variety Of Products</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-7xl p-4 mx-auto mb-20">
+      <div class="text-center mb-12">
+        <h2
+          class="text-3xl md:text-4xl font-serif font-semibold text-red-900 mb-4"
+        >
+          What Our Students Say
+        </h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+          Discover how our courses have transformed the lives of astrology
+          enthusiasts and practitioners worldwide
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Testimonial 1 -->
+        <div class="bg-white rounded-lg shadow-lg p-6 relative">
+          <div class="absolute -top-4 right-4 bg-red-900 rounded-full p-2">
+            <svg
+              class="w-6 h-6 text-white"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"
+              />
+            </svg>
+          </div>
+          <h1 class="text-md text-red-900 font-semibold mb-5">
+            Advanced Astrology Course
+          </h1>
+          <p class="text-gray-600 mb-4">
+            "The Advanced Astrology course with Pandit Sachin Lohia exceeded my
+            expectations. His approach is both deeply knowledgeable and
+            practical, and it has significantly transformed my understanding of
+            astrology. I now incorporate his teachings into my daily life and
+            professional practice."
+          </p>
+          <div class="border-t pt-4">
+            <h4 class="font-medium text-red-900">Priya Sharma</h4>
+            <p class="text-sm text-gray-500">Medical Doctor</p>
+            <div class="flex items-center mt-2">
+              <img class="w-5 h-5" src="/imgs/icons/star.svg" alt="" />
+              <img class="w-5 h-5" src="/imgs/icons/star.svg" alt="" />
+              <img class="w-5 h-5" src="/imgs/icons/star.svg" alt="" />
+              <img class="w-5 h-5" src="/imgs/icons/star.svg" alt="" />
+              <img class="w-5 h-5" src="/imgs/icons/star.svg" alt="" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="bg-white rounded-lg shadow-lg p-6 relative">
+          <div class="absolute -top-4 right-4 bg-red-900 rounded-full p-2">
+            <svg
+              class="w-6 h-6 text-white"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"
+              />
+            </svg>
+          </div>
+          <h1 class="text-md text-red-900 font-semibold mb-5">
+            Date Of Birth Analysis Report
+          </h1>
+          <p class="text-gray-600 mb-4">
+            "I got a Date of Birth Analysis report from Pandit Sachin Lohia, and
+            it was absolutely insightful. The analysis provided a detailed
+            understanding of my personality traits and life path based on my
+            birth date. It's like Pandit Ji knew exactly what was happening in
+            my life!"
+          </p>
+          <div class="border-t pt-4">
+            <h4 class="font-medium text-red-900">Rahul Verma</h4>
+            <p class="text-sm text-gray-500">Software Engineer</p>
+            <div class="flex items-center mt-2">
+              <img class="w-5 h-5" src="/imgs/icons/star.svg" alt="" />
+              <img class="w-5 h-5" src="/imgs/icons/star.svg" alt="" />
+              <img class="w-5 h-5" src="/imgs/icons/star.svg" alt="" />
+              <img class="w-5 h-5" src="/imgs/icons/star.svg" alt="" />
+              <img class="w-5 h-5" src="/imgs/icons/star.svg" alt="" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="bg-white rounded-lg shadow-lg p-6 relative">
+          <div class="absolute -top-4 right-4 bg-red-900 rounded-full p-2">
+            <svg
+              class="w-6 h-6 text-white"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"
+              />
+            </svg>
+          </div>
+          <h1 class="text-md text-red-900 font-semibold mb-5">
+            Call Consultation
+          </h1>
+          <p class="text-gray-600 mb-4">
+            "I recently had a call consultation with Pandit Sachin Lohia about
+            my career challenges, and his insights were incredibly accurate and
+            helpful. He took the time to understand my situation and gave me
+            clear, actionable advice that has already started to make a positive
+            difference in my work life."
+          </p>
+          <div class="border-t pt-4">
+            <h4 class="font-medium text-red-900">Viren Singh</h4>
+            <p class="text-sm text-gray-500">Business Owner</p>
+            <div class="flex items-center mt-2">
+              <img class="w-5 h-5" src="/imgs/icons/star.svg" alt="" />
+              <img class="w-5 h-5" src="/imgs/icons/star.svg" alt="" />
+              <img class="w-5 h-5" src="/imgs/icons/star.svg" alt="" />
+              <img class="w-5 h-5" src="/imgs/icons/star.svg" alt="" />
+              <img class="w-5 h-5" src="/imgs/icons/star.svg" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-6xl p-4 mx-auto mb-20">
+      <h1
+        class="text-4xl font-serif text-[#8B1A1A] font-semibold text-center mb-8"
+      >
+        FAQ's
+      </h1>
+
+      <div class="space-y-4">
+        <!-- FAQ Item 1 -->
+        <div class="border border-red-100 rounded-lg overflow-hidden">
+          <button
+            class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center bg-white hover:bg-red-50"
+          >
+            <span class="text-[#8B1A1A] font-medium"
+              >How can I book a consultation call with Astro Sachin Lohia
+              Pandit?</span
+            >
+            <svg
+              class="arrow-icon w-5 h-5 text-[#8B1A1A]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+          <div class="faq-answer bg-white">
+            <div class="px-6 py-4">
+              <p class="text-gray-700">
+                Please use our consultation booking page or contact us directly
+                to schedule your consultation.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ Item 2 -->
+        <div class="border border-red-100 rounded-lg overflow-hidden">
+          <button
+            class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center bg-white hover:bg-red-50"
+          >
+            <span class="text-[#8B1A1A] font-medium"
+              >Does Astro Sachin Lohia Pandit provide astrology courses?</span
+            >
+            <svg
+              class="arrow-icon w-5 h-5 text-[#8B1A1A]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+          <div class="faq-answer bg-white">
+            <div class="px-6 py-4">
+              <p class="text-gray-700">
+                Yes, we offer various courses including Basic Astrology,
+                Advanced Astrology, Numerology, and Mobile Numerology courses.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="border border-red-100 rounded-lg overflow-hidden">
+          <button
+            class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center bg-white hover:bg-red-50"
+          >
+            <span class="text-[#8B1A1A] font-medium"
+              >What services does Pandit Sachin Lohia offer?</span
+            >
+            <svg
+              class="arrow-icon w-5 h-5 text-[#8B1A1A]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+          <div class="faq-answer bg-white">
+            <div class="px-6 py-4">
+              <p class="text-gray-700">
+                Pandit Sachin Lohia offers a range of personalized astrology
+                services, including detailed Kundali readings, horoscope
+                analysis, numerology consultations, palmistry, and face reading.
+                Each service is designed to provide in-depth insights into
+                various aspects of your life, such as career, relationships,
+                health, and personal growth. Pandit Ji combines traditional
+                Vedic wisdom with modern approaches to deliver highly accurate
+                and transformative guidance.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <a
+      href="https://wa.me/+919105153366"
+      target="_blank"
+      class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition duration-300"
+      aria-label="Chat on WhatsApp"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        class="w-6 h-6"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M16.444 14.51c-.298-.149-1.763-.87-2.036-.97-.273-.099-.471-.148-.67.15-.2.298-.769.97-.94 1.168-.173.2-.348.224-.645.075-.298-.15-1.258-.466-2.396-1.48-.884-.785-1.482-1.754-1.656-2.051-.173-.298-.018-.459.13-.608.134-.134.298-.348.447-.521.149-.173.2-.298.298-.497.1-.199.05-.372-.025-.521-.075-.149-.671-1.615-.92-2.216-.242-.582-.487-.503-.671-.512-.173-.007-.372-.009-.572-.009-.2 0-.522.075-.796.373-.273.298-1.044 1.02-1.044 2.48s1.068 2.868 1.216 3.072c.149.199 2.1 3.186 5.077 4.464.71.306 1.263.489 1.696.625.713.227 1.363.195 1.874.118.572-.085 1.762-.718 2.01-1.411.249-.695.249-1.289.174-1.411-.075-.124-.273-.198-.571-.348zm-4.444-14.51c-6.627 0-12 5.373-12 12 0 2.111.537 4.101 1.465 5.848l-1.554 5.66 5.818-1.525c1.697.927 3.616 1.467 5.61 1.467 6.627 0 12-5.373 12-12s-5.373-12-12-12z"
+        />
+      </svg>
+    </a>
+
+    <footer class="bg-[#8B1A1A] text-white px-4 py-12 md:px-8">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div>
+            <h3 class="text-xl font-semibold mb-4">Premium Services</h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="https://rzp.io/rzp/sXS2EzU" class="hover:text-gray-300"
+                  >Premium Numerology Report</a
+                >
+              </li>
+              <li>
+                <a href="/call-consulting" class="hover:text-gray-300"
+                  >Book Consultation Call</a
+                >
+              </li>
+            </ul>
+
+            <div class="mt-6">
+              <h3 class="text-xl font-semibold mb-4">Contact Details</h3>
+              <p>+919105153366</p>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-semibold mb-4">Our Courses</h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="#" class="hover:text-gray-300">Numerology Course</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-gray-300">Vedic Astrology</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-gray-300">Lalkitab</a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-semibold mb-4">Quick Links</h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="/calc" class="hover:text-gray-300">Free Calculator</a>
+              </li>
+              <li>
+                <a href="/about" class="hover:text-gray-300">About</a>
+              </li>
+              <li>
+                <a href="/contact-us" class="hover:text-gray-300">Contact is</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-[#9D2A2A] p-6 rounded-lg">
+            <p class="text-sm">
+              Astro Sachin Lohia is the best astrologer in India in the field of
+              Astrology, Numerology & Palmistry. He is helping people to solve
+              their life problems related to government jobs, health, marriage,
+              love, career, and business since 49+ years.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-12 pt-8 border-t border-gray-700">
+          <div
+            class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
+          >
+            <div class="w-32">
+              <img src="/imgs/extras/logo.png" alt="Logo" class="w-full" />
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-6 my-4 md:my-0">
+              <a href="#" class="hover:text-gray-300">Help</a>
+              <a href="#" class="hover:text-gray-300">Terms & Services</a>
+              <a href="#" class="hover:text-gray-300">Privacy Policy</a>
+              <a href="#" class="hover:text-gray-300">Refund Policy</a>
+            </div>
+
+            <div class="flex gap-4">
+              <a
+                href="https://www.facebook.com/vedikastrologygurukulcourses/"
+                class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+              >
+                <ion-icon name="logo-facebook"></ion-icon>
+              </a>
+              <a
+                href="https://www.youtube.com/@sachinlohiaastrologer"
+                class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+              >
+                <ion-icon name="logo-youtube"></ion-icon>
+              </a>
+              <a
+                href="https://www.instagram.com/vediikastrologygurukul/"
+                class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+              >
+                <ion-icon name="logo-instagram"></ion-icon>
+              </a>
+              <a
+                href="tel:+919105153366"
+                class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+              >
+                <ion-icon name="call"></ion-icon>
+              </a>
+            </div>
+          </div>
+
+          <div
+            class="mt-8 text-center text-sm flex flex-col md:flex-row justify-between items-center"
+          >
+            <p>All rights reserved by © Astro Sachin Lohia</p>
+            <p>
+              Designed & Developed by
+              <a class="hover:underline" href="https://avox.in/">@Avox</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById("userForm").addEventListener("submit", (e) => {
+        const phone = document.getElementById("phone").value;
+        const name = document.getElementById("name").value;
+
+        if (phone.length !== 10 || isNaN(phone)) {
+          alert("Please enter a valid 10-digit phone number.");
+          e.preventDefault();
+        }
+        sessionStorage.setItem("userData", JSON.stringify({ name, phone }));
+      });
+    </script>
+
+    <script src="/javascripts/indexScript.js"></script>
+    <script src="/javascripts/carousel.js"></script>
+    <script src="/javascripts/counterAnimation.js"></script>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+  </body>
+</html>

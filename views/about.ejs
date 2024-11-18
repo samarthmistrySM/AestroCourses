@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap");
+
+      * {
+        font-family: "Libre Baskerville", serif;
+        box-sizing: border-box;
+      }
+
+      .nav-menu {
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .nav-menu.hidden {
+        transform: translateX(100%);
+      }
+
+      .sec2 {
+        background: url("/imgs/backgrounds/bg1.png");
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+
+      .sec3 {
+        background: url("/imgs/backgrounds/bg1.png");
+        background-position: initial;
+        background-size: contain;
+      }
+    </style>
+  </head>
+
+  <body class="sec2">
+    <div
+      class="w-full flex justify-around items-center bg-gradient-to-b from-red-700 via-red-900 to-red-900 text-white px-6 py-4"
+    >
+      <a href="/" class="logo flex items-center">
+        <img
+          class="h-12 md:h-16 w-auto"
+          src="/imgs/extras/logo.png"
+          alt="Astro Sachin Lohia"
+        />
+      </a>
+
+      <div class="flex items-center md:space-x-4">
+        <% if (loggedIn) { %>
+        <div class="hidden md:flex items-center space-x-4">
+          <a href="/call-consulting"
+            class="text-white bg-yellow-500 rounded-full text-xs md:text-sm px-2 py-1 md:px-4 md:py-2"
+          >
+            Get Consultation
+          </a>
+
+          <div class="bg-blue-500 flex rounded-full md:px-4 md:py-2">
+            <span class="flex items-center text-2xl">
+              <ion-icon name="person-circle"></ion-icon>
+            </span>
+
+            <p class="font-semibold"><%= user.username %></p>
+          </div>
+
+          <form action="/auth/logout" method="post">
+            <button
+              type="submit"
+              class="text-blue-200 text-lg hover:text-red-100 transition-colors duration-150"
+            >
+              Logout
+            </button>
+          </form>
+        </div>
+
+        <a href="/call-consulting"
+          class="md:hidden text-white bg-yellow-500 rounded-full px-2 py-1 md:px-4 md:py-2"
+        >
+          Get Consultation
+        </a>
+
+        <% } else { %>
+        <a href="/call-consulting"
+          class="text-white bg-yellow-500 rounded-full px-2 py-1 md:px-4 md:py-2"
+        >
+          Get Consultation
+        </a>
+        <a
+          href="/signin"
+          class="hover:text-gray-200 bg-white rounded-full px-2 py-1 md:px-4 md:py-2 text-red-900 font-semibold transition-colors duration-200 text-sm font-medium"
+        >
+          Login
+        </a>
+
+        <% } %>
+      </div>
+      <div class="hidden md:flex gap-4">
+        <a
+          href="https://www.facebook.com/vedikastrologygurukulcourses/"
+          class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+        >
+          <ion-icon name="logo-facebook"></ion-icon>
+        </a>
+        <a
+          href="https://www.youtube.com/@sachinlohiaastrologer"
+          class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+        >
+          <ion-icon name="logo-youtube"></ion-icon>
+        </a>
+        <a
+          href="https://www.instagram.com/vediikastrologygurukul/"
+          class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+        >
+          <ion-icon name="logo-instagram"></ion-icon>
+        </a>
+        <a
+          href="tel:+919105153366"
+          class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+        >
+          <ion-icon name="call"></ion-icon>
+        </a>
+      </div>
+    </div>
+
+    <nav class="sticky top-0 w-full bg-white shadow-md z-50">
+      <div class="container mx-auto px-4">
+        <div class="hidden lg:flex items-center justify-center space-x-8 py-1">
+          <a
+            href="/"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Home</a
+          >
+          <a
+            href="/"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Report</a
+          >
+          <a
+            href="/courses"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Courses</a
+          >
+          <a
+            href="/stream"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Watch Courses</a
+          >
+          <a
+            href="/call-consulting"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Call Consultation</a
+          >
+          <a
+            href="/calc"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Free Calculator</a
+          >
+          <a
+            href="/about"
+            class="text-orange-500 pb-1 border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >About</a
+          >
+          <a
+            href="/contact-us"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Contact Us</a
+          >
+        </div>
+
+        <div class="lg:hidden flex items-center justify-between py-4">
+          <a href="" class="text-gray-700 font-medium">Menu</a>
+          <button
+            id="menuBtn"
+            class="text-gray-700 hover:text-red-900 focus:outline-none"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                class="menuIcon"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+              <path
+                class="closeIcon hidden"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div
+          id="mobileMenu"
+          class="nav-menu hidden lg:hidden absolute top-full left-0 right-0 bg-white shadow-lg"
+        >
+          <div class="flex flex-col space-y-4 px-4 py-6">
+            <a
+              href="/"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Home</a
+            >
+            <a
+              href="/"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Report</a
+            >
+            <a
+              href="/courses"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Courses</a
+            >
+            <a
+            href="/stream"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Watch Courses</a
+          >
+            <a
+              href="/call-consulting"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Call Consultation</a
+            >
+            <a
+              href="/calc"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Free Calculator</a
+            >
+            <a
+              href="/about"
+              class="text-orange-500 pb-1 border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >About</a
+            >
+            <a
+              href="/contact-us"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Contact Us</a
+            >
+            <% if (loggedIn) { %>
+              <form action="/auth/logout" method="post">
+                <button
+                  type="submit"
+                  class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+                >
+                  Logout
+                </button>
+              </form>f
+              <%}%>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="relative">
+      <div class="container mx-auto px-4 md:pb-12">
+        <div class="flex flex-col md:flex-row items-center justify-between">
+          <img src="/imgs/carousel/img2pc.png" alt="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="mx-auto px-4 py-12">
+      <h2 class="text-3xl font-bold text-center text-orange-900 mb-8">
+        About Sachin Lohia Pandit
+      </h2>
+      <p class="text-center text-gray-700 max-w-7xl mx-auto italic mb-12">
+        "The good, the bad, the worse; all of them are meant to pass one day. No
+        situation stays forever. It isn't in your hands to control every
+        situation of every cell on the planet, but what you can and should do is
+        work according to your ultimate purpose. If it's good, then it can be
+        made better. If it's bad, then it can be made easier. All through the
+        power of the science of astrology. Believe in yourselves and your
+        stars."
+      </p>
+      <p class="text-gray-600 max-w-7xl mx-auto">
+        In today's world, astrology has often been misunderstood and reduced to
+        superstition. The true science and wisdom behind astrology, however,
+        remain timeless. Sachin Lohia Pandit's mission is to reignite faith in
+        the power of astrology and its ability to guide individuals toward a
+        life of balance and fulfillment. Just as it has been revered since
+        ancient times, astrology continues to hold profound significance in our
+        modern world. For centuries, it has been a cornerstone in determining
+        the most auspicious times for important life events, known as "mahurat."
+        Astrology is not just about predictions; it is about understanding the
+        cosmic energies that influence our lives. By reconnecting with this
+        ancient science, we can gain clarity and insight, helping us navigate
+        the challenges of life with confidence and purpose.
+      </p>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-4 py-12">
+      <div class="flex flex-col md:flex-row items-center gap-8">
+        <div class="md:w-1/2">
+          <img
+            src="/imgs/extras/about2.webp"
+            alt="Astrology Tools"
+            class="rounded-lg w-full"
+          />
+        </div>
+
+        <div class="md:w-1/2">
+          <h2 class="text-3xl font-bold text-orange-900 mb-6">
+            Have Life Struggles? We At Astro Sachin Lohia Is The Answer
+          </h2>
+          <div class="space-y-6">
+            <div>
+              <h3 class="text-xl font-semibold text-orange-800 mb-2">
+                Love astrology
+              </h3>
+              <p class="text-gray-600">
+                In pain to let go of someone? Not finding good marriage
+                prospects? Have difficulty in relationships? Astro Sachin Lohia
+                has got all the solutions for your troubles in love and
+                relationships.
+              </p>
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold text-orange-800 mb-2">
+                Health astrology
+              </h3>
+              <p class="text-gray-600">
+                Struggling to get a grip on your health? Not able to untangle
+                yourself from the loop of hospitals, medicines, and doctors?
+                Astro Sachin Lohia will help your find answers to achieve your
+                optimum health and body.
+              </p>
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold text-orange-800 mb-2">
+                Wealth astrology
+              </h3>
+              <p class="text-gray-600">
+                Is money the root of all your problems? Finding difficulties
+                with money at all times? Not able to get your loved ones the
+                gifts they deserve? Don't worry, Astro Sachin Lohia will remove all
+                the obstacles from the path of you attaining money and
+                Dhanalaxmi.
+              </p>
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold text-orange-800 mb-2">
+                Career astrology
+              </h3>
+              <p class="text-gray-600">
+                Not able to get that government job? Struggling to get into the
+                ranks of executives and officers? We have the perfect solutions
+                for your career difficulties.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-4 py-12">
+      <div class="flex flex-col items-center gap-8">
+        <h2 class="text-3xl font-bold text-orange-900 mb-6">Our Motto</h2>
+        <div class="space-y-6">
+          <p class="text-gray-600">
+            Astro Sachin Lohia believes that humanity is far away from its
+            astrological potential. Astrology is a practice that is supported by
+            science that runs through thousands of years of India. The saying is
+            “to read is to grow, and to grow you need to know.” The truth of the
+            matter is that as humans, we haven’t even scratched the surface of
+            this astonishing science. There is so much to know, learn and
+            discover that we can’t possibly imagine at this point. As such an
+            organization that believes in science; we have some of the most
+            qualified and best astrologers in India and we research astrology at
+            every moment. The reality is that astrology has been reduced to a
+            nutshell of knowing the future. Whereas, it is much more than that.
+            Astrology is so vast that it can even identify the good and the
+            evil.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-4 py-12">
+      <div class="flex flex-col md:flex-row-reverse items-center gap-8">
+        <div class="md:w-1/2">
+          <img
+            src="/imgs/extras/about4.webp"
+            alt="Astrology Tools"
+            class="rounded-lg w-full"
+          />
+        </div>
+
+        <div class="md:w-1/2">
+          <h2 class="text-3xl font-bold text-orange-900 mb-6">
+            Who Do We Believe In?
+          </h2>
+          <div class="space-y-6">
+            <p class="text-gray-600">
+              The greatest of individuals like Chanakya, Aryabhatta,
+              Brahmagupta, and many more have been graced with the blessing of
+              astrology knowledge. Astro Sachin Lohia believes that when these
+              legendary sages believed in the power of astrology then why can’t
+              it be used to empower present generations. We believe that with
+              proper guidance, expertise, and consultation of our experts, you
+              can become the most successful version of yourself. When you do
+              everything according to astrological sciences then no one can
+              drive you away from your path to success because your success is
+              meant to be.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-4 py-12">
+      <div class="flex flex-col md:flex-row items-center gap-8">
+        <div class="md:w-1/2">
+          <img
+            src="/imgs/extras/SachinTraditional.jpg"
+            alt="Astrology Tools"
+            class="rounded-lg w-full"
+          />
+        </div>
+
+        <div class="md:w-1/2">
+          <h2 class="text-3xl font-bold text-orange-900 mb-6">
+            Why Astro Sachin Lohia Pandit ?
+          </h2>
+          <div class="space-y-6">
+            <p class="text-gray-600">
+              Our experts are qualified and trained in such a manner, that they
+              will guide you to solve any query you have. Be it money,
+              relationships, work, health, or anything else. The core of Astro
+              Sachin Lohia lies in building long-term relations with our clients.
+              Our consultation is personalized for every individual. For making
+              astrology predictions, we track and know about all your actions,
+              thinking, mentality and capability. This enables us to consult you
+              to your optimum self. We have experts assigned to track your
+              horoscope in such a manner that you are made aware of every minor
+              and major movement and consult you as per them.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="bg-red-900 mb-10">
+      <div class="sec3 py-16">
+        <div
+          class="max-w-6xl mx-auto px-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 text-center text-white"
+        >
+          <div class="bg-orange-100 p-3 rounded-full text-red-900">
+            <p class="text-3xl font-bold"><span id="counter1"></span>+</p>
+            <p>Kundli Served</p>
+          </div>
+          <div class="bg-orange-100 p-3 rounded-full text-red-900">
+            <p class="text-3xl font-bold"><span id="counter2"></span>+</p>
+            <p>Years Of Legacy</p>
+          </div>
+          <div class="bg-orange-100 p-3 rounded-full text-red-900">
+            <p class="text-3xl font-bold"><span id="counter3"></span>+</p>
+            <p>Students Enrolled</p>
+          </div>
+          <div class="bg-orange-100 p-3 rounded-full text-red-900">
+            <p class="text-3xl font-bold"><span id="counter4"></span>+</p>
+            <p>Consultations Given</p>
+          </div>
+          <div class="bg-orange-100 p-3 rounded-full text-red-900">
+            <p class="text-3xl font-bold"><span id="counter5"></span>+</p>
+            <p>Languages For Reports</p>
+          </div>
+          <div class="bg-orange-100 p-3 rounded-full text-red-900">
+            <p class="text-3xl font-bold"><span id="counter6"></span>+</p>
+            <p>Awards in Occult Field</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <a 
+    href="https://wa.me/<your-phone-number>" 
+    target="_blank"
+    class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition duration-300"
+    aria-label="Chat on WhatsApp"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-6 h-6" viewBox="0 0 24 24">
+      <path d="M16.444 14.51c-.298-.149-1.763-.87-2.036-.97-.273-.099-.471-.148-.67.15-.2.298-.769.97-.94 1.168-.173.2-.348.224-.645.075-.298-.15-1.258-.466-2.396-1.48-.884-.785-1.482-1.754-1.656-2.051-.173-.298-.018-.459.13-.608.134-.134.298-.348.447-.521.149-.173.2-.298.298-.497.1-.199.05-.372-.025-.521-.075-.149-.671-1.615-.92-2.216-.242-.582-.487-.503-.671-.512-.173-.007-.372-.009-.572-.009-.2 0-.522.075-.796.373-.273.298-1.044 1.02-1.044 2.48s1.068 2.868 1.216 3.072c.149.199 2.1 3.186 5.077 4.464.71.306 1.263.489 1.696.625.713.227 1.363.195 1.874.118.572-.085 1.762-.718 2.01-1.411.249-.695.249-1.289.174-1.411-.075-.124-.273-.198-.571-.348zm-4.444-14.51c-6.627 0-12 5.373-12 12 0 2.111.537 4.101 1.465 5.848l-1.554 5.66 5.818-1.525c1.697.927 3.616 1.467 5.61 1.467 6.627 0 12-5.373 12-12s-5.373-12-12-12z"/>
+    </svg>
+  </a>
+
+  <footer class="bg-[#8B1A1A] text-white px-4 py-12 md:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Premium Services</h3>
+          <ul class="space-y-2">
+            <li>
+              <a href="https://rzp.io/rzp/sXS2EzU" class="hover:text-gray-300"
+                >Premium Numerology Report</a
+              >
+            </li>
+            <li>
+              <a href="/call-consulting" class="hover:text-gray-300"
+                >Book Consultation Call</a
+              >
+            </li>
+          </ul>
+
+          <div class="mt-6">
+            <h3 class="text-xl font-semibold mb-4">Contact Details</h3>
+            <p>+919105153366</p>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Our Courses</h3>
+          <ul class="space-y-2">
+            <li>
+              <a href="#" class="hover:text-gray-300">Numerology Course</a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-gray-300">Vedic Astrology</a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-gray-300">Lalkitab</a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li>
+              <a href="/calc" class="hover:text-gray-300">Free Calculator</a>
+            </li>
+            <li>
+              <a href="/about" class="hover:text-gray-300">About</a>
+            </li>
+            <li>
+              <a href="/contact-us" class="hover:text-gray-300">Contact is</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-[#9D2A2A] p-6 rounded-lg">
+          <p class="text-sm">
+            Astro Sachin Lohia is the best astrologer in India in the field of
+            Astrology, Numerology & Palmistry. He is helping people to solve
+            their life problems related to government jobs, health, marriage,
+            love, career, and business since 49+ years.
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-gray-700">
+        <div
+          class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
+        >
+          <div class="w-32">
+            <img src="/imgs/extras/logo.png" alt="Logo" class="w-full" />
+          </div>
+
+          <div class="flex flex-wrap justify-center gap-6 my-4 md:my-0">
+            <a href="#" class="hover:text-gray-300">Help</a>
+            <a href="#" class="hover:text-gray-300">Terms & Services</a>
+            <a href="#" class="hover:text-gray-300">Privacy Policy</a>
+            <a href="#" class="hover:text-gray-300">Refund Policy</a>
+          </div>
+
+          <div class="flex gap-4">
+            <a
+              href="https://www.facebook.com/vedikastrologygurukulcourses/"
+              class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+            >
+              <ion-icon name="logo-facebook"></ion-icon>
+            </a>
+            <a
+              href="https://www.youtube.com/@sachinlohiaastrologer"
+              class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+            >
+              <ion-icon name="logo-youtube"></ion-icon>
+            </a>
+            <a
+              href="https://www.instagram.com/vediikastrologygurukul/"
+              class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+            >
+              <ion-icon name="logo-instagram"></ion-icon>
+            </a>
+            <a
+              href="tel:+919105153366"
+              class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+            >
+              <ion-icon name="call"></ion-icon>
+            </a>
+          </div>
+        </div>
+
+        <div
+          class="mt-8 text-center text-sm flex flex-col md:flex-row justify-between items-center"
+        >
+          <p>All rights reserved by © Astro Sachin Lohia</p>
+          <p>
+            Designed & Developed by
+            <a class="hover:underline" href="https://avox.in/">@Avox</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+    
+    <script src="/javascripts/indexScript.js"></script>
+    <script src="/javascripts/counterAnimation.js"></script>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+    /
+  </body>
+</html>

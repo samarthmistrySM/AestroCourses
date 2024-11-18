@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Numerology Premium Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+
+      .OpenSans {
+        font-family: "Open Sans", sans-serif;
+        font-style: italic;
+      }
+
+      .bg-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 600px; /* Adjust as needed */
+        height: 600px; /* Adjust as needed */
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .bg {
+        width: 100%;
+        height: 100%;
+        background: url("/imgs/extras/hand_bg.png") center center no-repeat;
+        background-size: contain;
+        animation: rotateBackground 100s linear infinite;
+        opacity: 0.8;
+      }
+
+      @keyframes rotateBackground {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .overlay {
+        background: url("/imgs/backgrounds/bg.jpg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: fixed;
+        opacity: 0.3;
+        inset: 0;
+        z-index: -2;
+      }
+    </style>
+  </head>
+
+  <body
+    class="text-white font-sans h-screen overflow-hidden flex flex-col items-center px-10 py-40 md:py-60 relative bg-black"
+  >
+    <div class="bg-container">
+      <div class="bg"></div>
+    </div>
+    <div class="overlay"></div>
+
+    <!-- Logo Section -->
+    <div class="logo text-center mb-2 relative z-10">
+      <h1
+        class="text-4xl font-extrabold OpenSans text-transparent bg-clip-text bg-gradient-to-r from-red-700 to-yellow-500"
+      >
+        Vediik Astrology <br />
+        Gurukul
+      </h1>
+      <h2
+        class="text-4xl font-extrabold OpenSans text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-red-700"
+      ></h2>
+    </div>
+
+    <!-- Main Content Section -->
+    <div
+      class="text-center mx-20 max-w-md mx-auto p-6 bg-black bg-opacity-40 rounded-lg shadow-lg relative z-10 border border-yellow-500"
+    >
+      <h1
+        class="text-2xl font-extrabold mb-8 bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent drop-shadow-lg"
+      >
+        Premium Numerology Report
+      </h1>
+
+      <input
+        type="tel"
+        id="phoneNumber"
+        placeholder="Enter your phone number"
+        class="w-full px-4 py-3 rounded-md border border-yellow-500 text-gray-900 shadow-inner outline-none mb-6 placeholder-gray-400"
+        maxlength="10"
+      />
+
+      <button
+        id="calculateBtn"
+        class="w-full px-6 py-3 bg-gradient-to-r from-red-700 to-yellow-500 rounded-md text-lg font-semibold shadow-lg hover:from-red-600 hover:to-yellow-400 transition duration-150"
+      >
+        Calculate
+      </button>
+    </div>
+
+    <!-- Popup Form Section -->
+    <div
+      id="popupForm"
+      class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-20"
+    >
+      <div
+        class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md text-gray-900 transform transition-all duration-300 border border-yellow-500"
+      >
+        <h2 class="text-2xl font-bold text-red-700 mb-6 text-center">
+          Complete Your Profile
+        </h2>
+        <form
+        action="/usedCalculator"
+        method="post"
+        id="userForm"
+        class="mb-4 space-y-4"
+      >
+        <div>
+          <label for="name" class="block text-gray-700 font-medium mb-1">Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Enter your name"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+          />
+        </div>
+        <div>
+          <label for="phone" class="block text-gray-700 font-medium mb-1">Phone Number</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            placeholder="Enter your phone number"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+          />
+        </div>
+        <button
+          type="submit"
+          class="bg-orange-500 text-white px-6 py-2 rounded-md hover:bg-orange-600 transition-colors w-full"
+        >
+          Submit
+        </button>
+      </form>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+
+    <script>
+      document.getElementById("calculateBtn").addEventListener("click", () => {
+        const phoneInput = document.getElementById("phoneNumber").value;
+        if (phoneInput.length !== 10) {
+          alert("Please enter a valid 10-digit phone number.");
+          return;
+        }
+        document.getElementById("popupForm").classList.remove("hidden");
+        document.getElementById("phone").value = phoneInput;
+      });
+
+      document.getElementById("userForm").addEventListener("submit", (e) => {
+        const phone = document.getElementById("phone").value;
+        const name = document.getElementById("name").value;
+
+        if (phone.length !== 10 || isNaN(phone)) {
+          alert("Please enter a valid 10-digit phone number.");
+          e.preventDefault(); // Prevent form submission
+        } else {
+          // Save data to sessionStorage
+          sessionStorage.setItem("userData", JSON.stringify({ name, phone }));
+        }
+      });
+    </script>
+  </body>
+</html>

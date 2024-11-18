@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Astronaut Consulting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap");
+
+      .bg-section {
+        background-image: url("/imgs/backgrounds/bg2.jpg");
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: center;
+      }
+      * {
+        font-family: "Libre Baskerville", serif;
+      }
+
+      @keyframes shine {
+        0% {
+          left: -100%;
+        }
+
+        100% {
+          left: 100%;
+        }
+      }
+
+      .shiny-button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 10%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.5);
+        transform: skewX(-25deg);
+        animation: shine 3s infinite;
+      }
+
+      .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+      }
+
+      .accordion-content.active {
+        max-height: 250px;
+      }
+      .leading-normal {
+        line-height: 1.5 !important;
+      }
+    </style>
+  </head>
+
+  <body class="font-sans leading-normal tracking-normal bg-white text-gray-800">
+    <div
+      class="w-full flex justify-around items-center bg-gradient-to-b from-red-700 via-red-900 to-red-900 text-white px-6 py-4"
+    >
+      <a href="/" class="logo flex items-center">
+        <img
+          class="h-12 md:h-16 w-auto"
+          src="/imgs/extras/logo.png"
+          alt="Astro Sachin Lohia"
+        />
+      </a>
+
+      <div class="flex items-center md:space-x-4">
+        <% if (loggedIn) { %>
+        <div class="hidden md:flex items-center space-x-4">
+          <a href="/call-consulting"
+            class="text-white bg-yellow-500 rounded-full text-xs md:text-sm px-2 py-1 md:px-4 md:py-2"
+          >
+            Get Consultation
+          </a>
+
+          <div class="bg-blue-500 flex rounded-full md:px-4 md:py-2">
+            <span class="flex items-center text-2xl">
+              <ion-icon name="person-circle"></ion-icon>
+            </span>
+
+            <p class="font-semibold"><%= user.username %></p>
+          </div>
+
+          <form action="/auth/logout" method="post">
+            <button
+              type="submit"
+              class="text-blue-200 text-lg hover:text-red-100 transition-colors duration-150"
+            >
+              Logout
+            </button>
+          </form>
+        </div>
+
+        <a href="/call-consulting"
+          class="md:hidden text-white bg-yellow-500 rounded-full px-2 py-1 md:px-4 md:py-2"
+        >
+          Get Consultation
+        </a>
+
+        <% } else { %>
+        <a href="/call-consulting"
+          class="text-white bg-yellow-500 rounded-full px-2 py-1 md:px-4 md:py-2"
+        >
+          Get Consultation
+        </a>
+        <a
+          href="/signin"
+          class="hover:text-gray-200 bg-white rounded-full px-2 py-1 md:px-4 md:py-2 text-red-900 font-semibold transition-colors duration-200 text-sm font-medium"
+        >
+          Login
+        </a>
+
+        <% } %>
+      </div>
+      <div class="hidden md:flex gap-4">
+        <a
+          href="https://www.facebook.com/vedikastrologygurukulcourses/"
+          class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+        >
+          <ion-icon name="logo-facebook"></ion-icon>
+        </a>
+        <a
+          href="https://www.youtube.com/@sachinlohiaastrologer"
+          class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+        >
+          <ion-icon name="logo-youtube"></ion-icon>
+        </a>
+        <a
+          href="https://www.instagram.com/vediikastrologygurukul/"
+          class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+        >
+          <ion-icon name="logo-instagram"></ion-icon>
+        </a>
+        <a
+          href="tel:+919105153366"
+          class="flex justify-center bg-[#9D2A2A] p-2 rounded-full hover:bg-[#8B1A1A] transition-colors"
+        >
+          <ion-icon name="call"></ion-icon>
+        </a>
+      </div>
+    </div>
+
+    <nav class="sticky top-0 w-full bg-white shadow-md z-50">
+      <div class="container mx-auto px-4">
+        <div class="hidden lg:flex items-center justify-center space-x-8 py-1">
+          <a
+            href="/"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Home</a
+          >
+          <a
+            href="/"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Report</a
+          >
+          <a
+            href="/courses"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Courses</a
+          >
+          <a
+            href="/stream"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Watch Courses</a
+          >
+          <a
+            href="/call-consulting"
+            class="text-orange-500 pb-1 border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Call Consultation</a
+          >
+          <a
+            href="/calc"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Free Calculator</a
+          >
+          <a
+            href="/about"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >About</a
+          >
+          <a
+            href="/contact-us"
+            class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+            >Contact Us</a
+          >
+        </div>
+
+        <div class="lg:hidden flex items-center justify-between py-4">
+          <a href="" class="text-gray-700 font-medium">Menu</a>
+          <button
+            id="menuBtn"
+            class="text-gray-700 hover:text-red-900 focus:outline-none"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                class="menuIcon"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+              <path
+                class="closeIcon hidden"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div
+          id="mobileMenu"
+          class="nav-menu hidden lg:hidden absolute top-full left-0 right-0 bg-white shadow-lg"
+        >
+          <div class="flex flex-col space-y-4 px-4 py-6">
+            <a
+              href="/"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Home</a
+            >
+            <a
+              href="/"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Report</a
+            >
+            <a
+              href="/courses"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Courses</a
+            >
+            <a
+              href="/stream"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Watch Courses</a
+            >
+            <a
+              href="/call-consulting"
+              class="text-orange-500 pb-1 border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Call Consultation</a
+            >
+            <a
+              href="/calc"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Free Calculator</a
+            >
+            <a
+              href="/about"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >About</a
+            >
+            <a
+              href="/contact-us"
+              class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >Contact Us</a
+            >
+            <% if (loggedIn) { %>
+            <form action="/auth/logout" method="post">
+              <button
+                type="submit"
+                class="text-gray-700 hover:text-orange-500 pb-1 border-transparent hover:border-orange-500 border-b-2 transition-colors duration-200 font-medium"
+              >
+                Logout
+              </button>
+            </form>
+            <%}%>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <section
+      class="min-h-screen bg-section bg-cover bg-center text-white py-10 flex justify-center items-center"
+    >
+      <div
+        class="flex flex-col lg:flex-row justify-center items-center w-full px-6 lg:px-20"
+      >
+        <div class="w-full lg:w-1/2 mt-8 lg:mt-0 text-left">
+          <h1
+            class="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-normal"
+          >
+            Talk to Astrologer
+            <span class="text-pink-200">Sachin Lohia</span> for Call
+            Consultation!
+          </h1>
+          <p class="text-base md:text-lg mb-8">
+            30 minutes, Ask anything, Get solutions to all your life problems in
+            just ₹2,100/-
+          </p>
+
+          <div
+            class="flex flex-col md:flex-row text-sm md:text-lg justify-center lg:justify-start space-y-4 md:space-y-0 md:space-x-8 mb-6"
+          >
+            <div class="flex items-center justify-start">
+              <ion-icon
+                class="text-3xl md:text-5xl mr-3"
+                name="happy"
+              ></ion-icon>
+              <span>
+                10 Thousand+ <br />
+                Happy Customers
+              </span>
+            </div>
+            <div class="flex items-center justify-start">
+              <ion-icon
+                class="text-3xl md:text-5xl mr-3"
+                name="checkmark-circle"
+              ></ion-icon>
+              <span>
+                100% <br />
+                Accurate Predictions
+              </span>
+            </div>
+          </div>
+
+          <p class="text-xs md:text-lg mb-8">
+            Talk to Astrologer Sachin Lohia today for getting rid of your life
+            problems today.
+          </p>
+
+          <a
+            href="https://google.com"
+            class="md:px-10 w-full text-center inline-block uppercase md:w-auto mb-8 px-4 justify-center text-sm md:text-xl shiny-button bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 rounded-lg overflow-hidden relative"
+          >
+            Book Your Call Now
+          </a>
+        </div>
+
+        <div class="w-full lg:w-1/3 flex justify-center">
+          <iframe
+            class="w-[270px] h-[480px] md:w-[350px] md:h-[600px]"
+            src="https://www.youtube.com/embed/phuFBofiZUE?si=rsCyZFaOT3o8U8Qa"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="min-h-screen flex justify-center items-center py-16 px-4 bg-white"
+    >
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12">
+          <h1 class="text-2xl md:text-4xl font-bold text-purple-600 mb-4">
+            Best Life Changing Solutions In Just One Call
+          </h1>
+          <div class="flex justify-center mb-4"></div>
+          <p class="text-gray-700 max-w-6xl mx-auto text-sm md:text-base">
+            Who would have thought that the answers to your life's challenges
+            lie in a single call with the right person? Out of all the calls you
+            make in your life, only a few can really help solve your problems.
+            Here at Astro Sachin Lohia can give you solutions to all these
+            problems in just one call.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div
+            class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition duration-300"
+          >
+            <div class="flex justify-center mb-4">
+              <div
+                class="bg-purple-400 p-4 rounded-full hover:-translate-y-4 transition-transform duration-300"
+              >
+                <svg
+                  class="w-8 h-8 text-white"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838l-2.727 1.17 1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <h2 class="text-xl font-bold text-purple-900 text-center mb-3">
+              Career
+            </h2>
+            <p class="text-gray-600 text-sm">
+              Many students get confused and want to know what to do after
+              exams, about jobs, and the future. Talk to astrologer Sachin Lohia
+              who can assist you in making the right career choices by analyzing
+              your birth chart and planetary influences. He will offer insights
+              into your strengths, weaknesses, & potential career paths.
+            </p>
+          </div>
+
+          <div
+            class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition duration-300"
+          >
+            <div class="flex justify-center mb-4">
+              <div
+                class="bg-purple-400 p-4 rounded-full hover:-translate-y-4 transition-transform duration-300"
+              >
+                <svg
+                  class="w-8 h-8 text-white"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+            <h2 class="text-xl font-bold text-purple-900 text-center mb-3">
+              Love & Relationship
+            </h2>
+            <p class="text-gray-600 text-sm">
+              Looking for the best love horoscope compatibility with your
+              partner? While relationship issues may arise, accurate horoscope
+              matching & predictions can provide insights for a successful,
+              prosperous bond. One counseling call with our astrologer can
+              reveal the potential of your relationship.
+            </p>
+          </div>
+
+          <div
+            class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition duration-300"
+          >
+            <div class="flex justify-center mb-4">
+              <div
+                class="bg-purple-400 p-4 rounded-full hover:-translate-y-4 transition-transform duration-300"
+              >
+                <svg
+                  class="w-8 h-8 text-white"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+            <h2 class="text-xl font-bold text-purple-900 text-center mb-3">
+              Health
+            </h2>
+            <p class="text-gray-600 text-sm">
+              Vedic astrology predictions can forecast health issues or injuries
+              before they appear in your body. This foresight arises from your
+              kundli's impact on various life aspects, guided by celestial
+              houses. When unfavorable planets affect these areas in your Kundli
+              by date of birth and time of birth, seeking early call
+              consultation by talking to the astrologer.
+            </p>
+          </div>
+
+          <div
+            class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition duration-300"
+          >
+            <div class="flex justify-center mb-4">
+              <div
+                class="bg-purple-400 p-4 rounded-full hover:-translate-y-4 transition-transform duration-300"
+              >
+                <svg
+                  class="w-8 h-8 text-white"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
+                    clip-rule="evenodd"
+                  />
+                  <path
+                    d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <h2 class="text-xl font-bold text-purple-900 text-center mb-3">
+              Business
+            </h2>
+            <p class="text-gray-600 text-sm">
+              When you're starting a business or facing big choices, it's like
+              being on a see-saw, balancing between success and failure. To
+              boost your chances of business success, getting accurate insights
+              from astrology is important. Consulting an astrologer can help you
+              address and overcome your business problems.
+            </p>
+          </div>
+
+          <div
+            class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition duration-300"
+          >
+            <div class="flex justify-center mb-4">
+              <div
+                class="bg-purple-400 p-4 rounded-full hover:-translate-y-4 transition-transform duration-300"
+              >
+                <svg
+                  class="w-8 h-8 text-white"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <h2 class="text-xl font-bold text-purple-900 text-center mb-3">
+              Marriage
+            </h2>
+            <p class="text-gray-600 text-sm">
+              For centuries in India, the practice of Kundli Milan for marriage
+              is very important. Talk to Astrologer Sachin Lohia for horoscope
+              matching of couples. Get Gun Milan, Mangal Dosha, & compatibility
+              analysis. This thorough process aids in identifying the most
+              suitable life partner through couple Kundli Milan.
+            </p>
+          </div>
+
+          <div
+            class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition duration-300"
+          >
+            <div class="flex justify-center mb-4">
+              <div
+                class="bg-purple-400 p-4 rounded-full hover:-translate-y-4 transition-transform duration-300"
+              >
+                <svg
+                  class="w-8 h-8 text-white"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+            <h2 class="text-xl font-bold text-purple-900 text-center mb-3">
+              Child
+            </h2>
+            <p class="text-gray-600 text-sm">
+              The ancient Indian Vedic astrology Sachin Lohia examines the
+              horoscopes of both partners, especially for those interested in
+              knowing about having children and even predicting the child's
+              name. By studying the 12 houses in a person's chart, Astro Sachin
+              Lohia ji offers accurate solutions for issues related to
+              childbirth.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="min-h-[90vh] flex justify-center items-center bg-section bg-cover bg-center text-white py-16"
+    >
+      <div class="max-w-4xl mx-auto px-4">
+        <h2
+          class="text-2xl sm:text-3xl font-semibold text-pink-200 text-center mb-10 md:mb-20"
+        >
+          Advantages Of Taking Our Consultation Call!
+        </h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+          <div
+            class="text-white p-6 rounded-lg flex justify-center items-center shadow-lg h-96"
+          >
+            <img src="/imgs/extras/poster.png" alt="" />
+          </div>
+
+          <div class="h-full text-left">
+            <ul
+              class="text-white text-sm sm:text-base lg:px-0 px-6 list-disc mb-10"
+            >
+              <li class="mb-2">Talk one-to-one with Pandit Ji</li>
+              <li class="mb-2">
+                Solutions to all your life problems including marriage, love,
+                education, career, and everything.
+              </li>
+              <li class="mb-2">
+                Guidance on your spiritual journey as to what poojas and deities
+                will be auspicious for you.
+              </li>
+              <li class="mb-2">
+                A thorough astrological analysis of your life problems.
+              </li>
+              <li class="mb-2">
+                An understanding of where you have gone wrong and how to do it
+                right.
+              </li>
+            </ul>
+
+            <a
+              href="https://rzp.io/rzp/uJ0uREv"
+              class="md:px-10 w-full text-center inline-block uppercase md:w-auto mb-8 px-4 justify-center text-sm md:text-xl shiny-button bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 rounded-lg overflow-hidden relative"
+            >
+              Book Your Call Now
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="min-h-screen flex flex-col justify-center items-center py-16 bg-white"
+    >
+      <div class="max-w-screen mx-auto text-center mb-20 px-4">
+        <h2
+          class="text-3xl md:text-4xl font-semibold uppercase text-purple-800 mb-4"
+        >
+          Book Your Call Now Now
+        </h2>
+        <p class="text-sm md:text-base text-gray-700 max-w-3xl mx-auto mb-8">
+          Who would have imagined that a single call to the right person could
+          hold the solutions to all your life problems? Amidst the numerous
+          calls you make throughout your lifetime, only a select few can
+          genuinely address your challenges. With Astro Sachin Lohia, one call
+          has the potential to transform your life. He attentively listens to
+          all your problems, analyzes them, and offers effective solutions.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div
+            class="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center"
+          >
+            <img
+              src="/imgs/extras/sachin.png"
+              alt="Astro Sachin Lohia"
+              class="w-32 h-44 rounded-full mb-4"
+            />
+            <h3 class="text-xl font-bold text-purple-800">
+              Astro Sachin Lohia
+            </h3>
+            <p class="mt-2 text-gray-600 text-sm">
+              Individual Audio Call Consulatation
+            </p>
+            <p class="mt-2 text-gray-600 text-sm">30 minute Audio Call</p>
+            <p class="text-gray-800 mt-2 text-lg">Audio- ₹2,100/-</p>
+            <a
+              href="https://rzp.io/rzp/uJ0uREv"
+              class="flex justify-center items-center bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 mt-4 rounded-lg w-full"
+            >
+              <ion-icon class="mr-3" name="call"></ion-icon> BOOK AUDIO CALL
+            </a>
+          </div>
+
+          <div
+            class="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center"
+          >
+            <img
+              src="/imgs/extras/sachin2.png"
+              alt="Astro Sachin Lohia"
+              class="w-32 h-44 scale-x-[-1] rounded-full mb-4"
+            />
+            <h3 class="text-xl font-bold text-purple-800">
+              Astro Sachin Lohia
+            </h3>
+            <p class="mt-2 text-gray-600 text-sm">
+              Individual Video Call Consulatation
+            </p>
+            <p class="mt-2 text-gray-600 text-sm">30 minute Video Call</p>
+            <p class="text-gray-800 mt-2 text-lg">Video- ₹2,700/-</p>
+            <a
+              href="https://rzp.io/rzp/lMB5ymm"
+              class="flex justify-center items-center bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 mt-4 rounded-lg w-full"
+            >
+              <ion-icon class="mr-3" name="videocam"></ion-icon> BOOK VIDEO CALL
+            </a>
+          </div>
+
+          <div
+            class="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center"
+          >
+            <img
+              src="/imgs/extras/sachin.png"
+              alt="Astro Sachin Lohia"
+              class="w-32 h-44 rounded-full mb-4"
+            />
+            <h3 class="text-xl font-bold text-purple-800">
+              Astro Sachin Lohia
+            </h3>
+            <p class="mt-2 text-gray-600 text-sm">
+              Couple Audio Call Consulatation
+            </p>
+            <p class="mt-2 text-gray-600 text-sm">45 minute Audio Call</p>
+            <p class="text-gray-800 mt-2 text-lg">Audio- ₹3,500/-</p>
+            <a
+              href="https://rzp.io/rzp/agRWmsJ"
+              class="flex justify-center items-center bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 mt-4 rounded-lg w-full"
+            >
+              <ion-icon class="mr-3" name="call"></ion-icon> BOOK AUDIO CALL
+            </a>
+          </div>
+
+          <div
+            class="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center"
+          >
+            <img
+              src="/imgs/extras/sachin2.png"
+              alt="Astro Sachin Lohia"
+              class="w-32 h-44 scale-x-[-1] rounded-full mb-4"
+            />
+            <h3 class="text-xl font-bold text-purple-800">
+              Astro Sachin Lohia
+            </h3>
+            <p class="mt-2 text-gray-600 text-sm">
+              Couple Video Call Consulatation
+            </p>
+            <p class="mt-2 text-gray-600 text-sm">45 minute Video Call</p>
+            <p class="text-gray-800 mt-2 text-lg">Video- ₹3,900/-</p>
+            <a
+              href="https://rzp.io/rzp/8YyJuQut"
+              class="flex justify-center items-center bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 mt-4 rounded-lg w-full"
+            >
+              <ion-icon class="mr-3" name="videocam"></ion-icon> BOOK VIDEO CALL
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-section bg-cover bg-center w-screen h-20 mb-20"></div>
+
+      <div class="max-w-screen p-6">
+        <h2
+          class="text-2xl text-center md:text-3xl font-semibold text-purple-800"
+        >
+          Important Notes
+        </h2>
+        <ul class="mt-4 space-y-2 text-sm md:text-base list-disc">
+          <li>
+            After booking, you'll be assigned the next available slot. If
+            rescheduling occurs due to Pandit Ji’s busy schedule, your call
+            remains a priority, and the nearest available slot will be provided.
+          </li>
+          <li>
+            <span class="font-semibold"
+              >Your consultation call will be scheduled after payment.</span
+            >
+          </li>
+          <li>सम्पूर्ण कॉल, पेमेंट के बाद बुक किये जायेंगे।</li>
+        </ul>
+
+        <div class="mt-6 bg-[#faf1e8] p-4 rounded-lg shadow-md text-center">
+          <p class="text-sm md:text-base text-[#8a0f0a] font-semibold italic">
+            Note:
+            <span class="font-bold"
+              >This is a one-time consultation only. There is no refund policy
+              after call booking and talking to Pandit ji.</span
+            >
+          </p>
+        </div>
+
+        <div
+          class="mt-8 flex flex-col md:flex-row justify-between items-center bg-purple-100 text-white p-4 md:p-6 rounded-lg"
+        >
+          <div class="flex items-center space-x-2">
+            <i class="fas fa-phone-alt"></i>
+            <p class="text-xl text-purple-700 md:text-3xl font-semibold">
+              <ion-icon class="text-3xl" name="call"></ion-icon> One time
+              service
+            </p>
+          </div>
+          <div class="flex items-center space-x-2 mt-4 md:mt-0">
+            <i class="fas fa-clock"></i>
+            <p class="text-xl text-purple-700 md:text-3xl font-semibold">
+              <ion-icon class="text-3xl" name="timer"></ion-icon> Time duration
+              - 30 min
+            </p>
+          </div>
+          <div class="flex items-center space-x-2 mt-4 md:mt-0">
+            <i class="fas fa-headphones-alt"></i>
+            <p class="text-xl text-purple-700 md:text-3xl font-semibold">
+              <ion-icon class="text-3xl" name="headset"></ion-icon> 7 days
+              support
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-section bg-cover bg-center text-white py-16">
+      <div class="max-w-6xl mx-auto p-6 rounded-xl text-white">
+        <h1 class="text-4xl font-bold mb-8 text-center">Meet Your Mentor</h1>
+
+        <div class="block md:hidden">
+          <div class="rounded-3xl p-4 h-full">
+            <img
+              src="/imgs/extras/sachin.png"
+              alt="Mentor Full"
+              class="w-full h-full object-cover rounded-2xl"
+            />
+          </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="space-y-6 flex flex-col justify-center">
+            <div class="space-y-8 mt-5">
+              <div>
+                <h3 class="text-xl font-bold mb-2">
+                  Award-Winning Expert in Astrology & More
+                </h3>
+                <p class="text-gray-300">
+                  Sachin Lohia, an award-winning expert in astrology and related
+                  fields like numerology, vastu shastra, and Bhrigu Nandi Nadi
+                  astrology, offers profound insights to guide individuals on
+                  their life journey
+                </p>
+              </div>
+
+              <div>
+                <h3 class="text-xl font-bold mb-2">
+                  Trusted Consultant & Advisor
+                </h3>
+                <p class="text-gray-300">
+                  With over 20 years of experience, Sachin Lohia is a trusted
+                  consultant, guiding clients through life's challenges using
+                  his deep expertise in astrology, vastu, and numerology. His
+                  practical advice has positively impacted countless individuals
+                  seeking clarity and direction.
+                </p>
+              </div>
+
+              <div>
+                <h3 class="text-xl font-bold mb-2">
+                  Occult Science Instructor
+                </h3>
+                <p class="text-gray-300">
+                  With expertise in Numerology, Astrology, Vastu Shastra, and
+                  more, Sachin Lohia has trained over 50,000 students. As a
+                  renowned astrologer and numerologist, he is continuing a
+                  legacy of two decades, empowering others with knowledge in
+                  these ancient sciences.
+                </p>
+              </div>
+
+              <div class="flex flex-wrap w-full justify-around gap-2">
+                <div
+                  class="p-4 flex w-40 flex-col bg-purple-700 justify-between rounded-lg"
+                >
+                  <p class="text-white text-xl font-bold">50K+</p>
+                  <h1 class="text-white text-xs">Students Taught</h1>
+                </div>
+                <div
+                  class="p-4 flex w-40 flex-col bg-purple-700 justify-between rounded-lg"
+                >
+                  <p class="text-white text-xl font-bold">19+ Awards</p>
+                  <h1 class="text-white text-xs">In the field of Astrology</h1>
+                </div>
+                <div
+                  class="p-4 flex w-40 flex-col bg-purple-700 justify-between rounded-lg"
+                >
+                  <p class="text-white text-xl font-bold">20 Years+</p>
+                  <h1 class="text-white text-xs">
+                    Experience In Field of <br />
+                    Astrology
+                  </h1>
+                </div>
+              </div>
+            </div>
+
+            <a
+              href="https://rzp.io/rzp/uJ0uREv"
+              class="md:px-10 w-full text-center inline-block uppercase md:w-auto mb-8 px-4 justify-center text-sm md:text-xl shiny-button bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 rounded-lg overflow-hidden relative"
+            >
+              Book Your Call Now
+            </a>
+          </div>
+
+          <div class="hidden md:block">
+            <div class="rounded-3xl p-4 h-full">
+              <img
+                src="/imgs/extras/sachin.png"
+                alt="Mentor Full"
+                class="w-full h-full object-cover rounded-2xl"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="min-h-screen w-screen flex flex-col items-center justify-center px-4"
+    >
+      <div class="max-w-3xl mx-auto">
+        <h1 class="text-2xl md:text-4xl text font-bold text-center mb-8">
+          FAQ'S: Here's everything you may ask
+        </h1>
+
+        <div class="space-y-4">
+          <div class="border rounded-lg border-purple-200">
+            <button
+              class="accordion-btn w-full text-left px-6 py-4 bg-purple-50 hover:bg-purple-100 transition-colors rounded-lg flex justify-between items-center"
+            >
+              <span class="text-lg font-medium"
+                >How will we book our consultation call?</span
+              >
+              <svg
+                class="w-6 h-6 transform transition-transform accordion-icon"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+            <div class="accordion-content px-6 bg-white rounded-b-lg">
+              <p class="py-4 text-gray-600">
+                You will receive a link that allows you to access Astro Sachin
+                Lohiaji’s schedule and choose from the available time slot when
+                he is available. From there, you can choose a suitable time to
+                Book Your Call Now. Additionally, a confirmation email will be
+                sent to provide you with the call details.
+              </p>
+            </div>
+          </div>
+
+          <div class="border rounded-lg border-purple-200">
+            <button
+              class="accordion-btn w-full text-left px-6 py-4 bg-purple-50 hover:bg-purple-100 transition-colors rounded-lg flex justify-between items-center"
+            >
+              <span class="text-lg font-medium"
+                >How many days will it require to book our consultation
+                call?</span
+              >
+              <svg
+                class="w-6 h-6 transform transition-transform accordion-icon"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+            <div class="accordion-content px-6 bg-white rounded-b-lg">
+              <p class="py-4 text-gray-600">
+                Your consultation call will be scheduled after payment.
+
+                <br />
+
+                On the next available date on the calendar.
+              </p>
+            </div>
+          </div>
+
+          <div class="border rounded-lg border-purple-200">
+            <button
+              class="accordion-btn w-full text-left px-6 py-4 bg-purple-50 hover:bg-purple-100 transition-colors rounded-lg flex justify-between items-center"
+            >
+              <span class="text-lg font-medium"
+                >Does the payment need to be made before having the call?</span
+              >
+              <svg
+                class="w-6 h-6 transform transition-transform accordion-icon"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+            <div class="accordion-content px-6 bg-white rounded-b-lg">
+              <p class="py-4 text-gray-600">
+                Certainly, you’ll need to complete the payment through online
+                banking in advance, and once that’s done, we’ll proceed to
+                schedule your call With Astro Sachin Lohiaji.
+              </p>
+            </div>
+          </div>
+
+          <div class="border rounded-lg border-purple-200">
+            <button
+              class="accordion-btn w-full text-left px-6 py-4 bg-purple-50 hover:bg-purple-100 transition-colors rounded-lg flex justify-between items-center"
+            >
+              <span class="text-lg font-medium"
+                >What are the benefits of booking a consultation call with
+                Panditji?</span
+              >
+              <svg
+                class="w-6 h-6 transform transition-transform accordion-icon"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+            <div class="accordion-content px-6 bg-white rounded-b-lg">
+              <p class="py-4 text-gray-600">
+                Astro Sachin Lohiaji is a highly renowned astrologer, known for
+                transforming the lives of countless individuals worldwide.
+                Choosing to book a consultation call with Panditji can pave the
+                way for a successful life, just as he has done for thousands of
+                others.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <a 
+    href="https://wa.me/<your-phone-number>" 
+    target="_blank"
+    class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition duration-300"
+    aria-label="Chat on WhatsApp"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-6 h-6" viewBox="0 0 24 24">
+      <path d="M16.444 14.51c-.298-.149-1.763-.87-2.036-.97-.273-.099-.471-.148-.67.15-.2.298-.769.97-.94 1.168-.173.2-.348.224-.645.075-.298-.15-1.258-.466-2.396-1.48-.884-.785-1.482-1.754-1.656-2.051-.173-.298-.018-.459.13-.608.134-.134.298-.348.447-.521.149-.173.2-.298.298-.497.1-.199.05-.372-.025-.521-.075-.149-.671-1.615-.92-2.216-.242-.582-.487-.503-.671-.512-.173-.007-.372-.009-.572-.009-.2 0-.522.075-.796.373-.273.298-1.044 1.02-1.044 2.48s1.068 2.868 1.216 3.072c.149.199 2.1 3.186 5.077 4.464.71.306 1.263.489 1.696.625.713.227 1.363.195 1.874.118.572-.085 1.762-.718 2.01-1.411.249-.695.249-1.289.174-1.411-.075-.124-.273-.198-.571-.348zm-4.444-14.51c-6.627 0-12 5.373-12 12 0 2.111.537 4.101 1.465 5.848l-1.554 5.66 5.818-1.525c1.697.927 3.616 1.467 5.61 1.467 6.627 0 12-5.373 12-12s-5.373-12-12-12z"/>
+    </svg>
+  </a>
+
+    <div
+      class="sticky bottom-0 w-full bg-transparent shadow-md z-50 p-4 flex items-center justify-around"
+    >
+      <a
+        href="https://rzp.io/rzp/uJ0uREv"
+        class="md:px-10 px-4 uppercase justify-center text-sm md:text-xl shiny-button bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 rounded-lg overflow-hidden shadow-2xl relative"
+      >
+        Book Your Call Now
+      </a>
+    </div>
+
+    <script src="/javascripts/indexScript.js"></script>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+  </body>
+</html>

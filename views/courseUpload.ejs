@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload New Course</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap");
+    
+    * {
+      font-family: "Libre Baskerville", serif;
+      box-sizing: border-box;
+    }
+
+    .sec2 {
+      background: url("/imgs/backgrounds/bg1.png");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <main class="sec2 flex flex-col items-center justify-center min-h-screen py-12 space-y-8">
+    
+    <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-3xl mx-auto">
+      <% if (typeof message !=='undefined' ) { %>
+        <p
+          class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 text-center"
+        >
+          <%= message %>
+        </p>
+        <% } %>
+
+      <h1 class="text-3xl font-bold text-center text-red-900 mb-8">Upload a New Course</h1>
+      <form action="/courses/upload" method="POST" enctype="multipart/form-data" class="space-y-6">
+        <div>
+          <label for="title" class="block text-gray-700 font-medium mb-2">Course Title:</label>
+          <input type="text" id="title" name="title" required class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-red-700">
+        </div>
+
+        <div>
+          <label for="description" class="block text-gray-700 font-medium mb-2">Course Description:</label>
+          <textarea id="description" name="description" required class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-red-700"></textarea>
+        </div>
+
+        <div>
+          <label for="price" class="block text-gray-700 font-medium mb-2">Course Price:</label>
+          <input type="number" id="price" name="price" required class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-red-700">
+        </div>
+
+        <div>
+          <label for="purchaseLink" class="block text-gray-700 font-medium mb-2">Course Purchase Link:</label>
+          <input type="text" id="purchaseLink" name="purchaseLink" required class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-red-700">
+        </div>
+
+        <div>
+          <label for="thumbnail" class="block text-gray-700 font-medium mb-2">Upload Thumbnail:</label>
+          <input type="file" id="thumbnail" name="thumbnail" accept="image/*" required class="w-full text-gray-700">
+        </div>
+        
+        <div>
+          <label for="video" class="block text-gray-700 font-medium mb-2">Upload Video:</label>
+          <input type="file" id="video" name="video" accept="video/*" required class="w-full text-gray-700">
+        </div>
+
+        <button type="submit" class="w-full bg-red-700 text-white font-bold py-2 rounded-lg hover:bg-red-800 transition-colors duration-200">Upload Course</button>
+      </form>
+    </div>
+    
+    <div class="sec2 flex justify-center min-h-screen py-12">
+      <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-3xl mx-auto">
+        <% if (typeof message !=='undefined' ) { %>
+          <p
+            class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 text-center"
+          >
+            <%= message %>
+          </p>
+          <% } %>
+  
+        <h1 class="text-3xl font-bold text-center text-red-900 mb-8">Manage User Access to Courses</h1>
+        
+        <% users.forEach(user => { %>
+          <div class="border border-gray-300 rounded-lg p-4 mb-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4"><%= user.username %> (<%= user.email %>)</h3>
+            <form action="/courses/grantaccess" method="POST" class="space-y-6">
+              <input type="hidden" name="existingCourses[<%= user._id %>][]" value="<%= user.courses.join(',') %>">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <% courses.forEach(course => { %>
+                  <div class="flex items-center space-x-2">
+                    <input 
+                      type="checkbox" 
+                      name="access[<%= user._id %>][]" 
+                      value="<%= course._id %>" 
+                      class="text-red-700"
+                      <%= user.courses.includes(course._id) ? "checked" : "" %>
+                    >
+                    <label class="text-gray-700"><%= course.title %></label>
+                  </div>
+                <% }); %>
+              </div>
+              <button type="submit" class="w-full bg-red-700 text-white font-bold py-2 rounded-lg hover:bg-red-800 transition-colors duration-200">Update Courses for <%= user.username %></button>
+            </form>
+          </div>
+        <% }); %>
+        
+        
+      </div>
+    </div>
+    
+  </main>
+</body>
+</html>
