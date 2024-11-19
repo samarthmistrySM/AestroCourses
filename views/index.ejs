@@ -337,21 +337,21 @@
         <div
           class="carousel-item text-white flex items-center justify-center w-screen h-full"
         >
-          <a href="https://wa.me/+919408618999" target="_blank">
+          <a href="/calc" target="_blank">
             <img src="/imgs/carousel/img1pc.png" alt="img1" />
           </a>
         </div>
         <div
           class="carousel-item text-white flex items-center justify-center w-screen h-full"
         >
-          <a href="https://wa.me/+919408618999" target="_blank">
+          <a href="/call-consulting" target="_blank">
             <img src="/imgs/carousel/img2pc.png" alt="img2" />
           </a>
         </div>
         <div
           class="carousel-item text-white flex items-center justify-center w-screen h-full"
         >
-          <a href="https://wa.me/+919408618999" target="_blank">
+          <a href="/courses" target="_blank">
             <img src="/imgs/carousel/img3pc.png" alt="img3" />
           </a>
         </div>
@@ -364,21 +364,21 @@
         <div
           class="carousel-item text-white flex items-center justify-center w-screen h-full"
         >
-          <a href="https://wa.me/+919408618999" target="_blank">
+          <a href="/courses" target="_blank">
             <img src="/imgs/carousel/img1m.png" alt="img1" />
           </a>
         </div>
         <div
           class="carousel-item text-white flex items-center justify-center w-screen h-full"
         >
-          <a href="https://wa.me/+919408618999" target="_blank">
+          <a href="/call-consulting" target="_blank">
             <img src="/imgs/carousel/img2m.png" alt="img2" />
           </a>
         </div>
         <div
           class="carousel-item text-white flex items-center justify-center w-screen h-full"
         >
-          <a href="https://wa.me/+919408618999" target="_blank">
+          <a href="/calc" target="_blank">
             <img src="/imgs/carousel/img3m.png" alt="img3" />
           </a>
         </div>
@@ -1246,6 +1246,32 @@
         }
         sessionStorage.setItem("userData", JSON.stringify({ name, phone }));
       });
+      let currentSlide = 0;
+
+function showSlide(index) {
+  const carousel = window.innerWidth >= 1024
+    ? document.getElementById("desktopCarousel")
+    : document.getElementById("mobileCarousel");
+
+  const slides = carousel.children.length;
+  currentSlide = (index + slides) % slides;
+  carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+}
+
+function prevSlide() {
+  showSlide(currentSlide - 1);
+}
+
+
+function nextSlide() {
+  showSlide(currentSlide + 1);
+}
+
+setInterval(() => {
+  nextSlide();
+}, 2000);
+
+window.addEventListener("resize", () => showSlide(currentSlide));
     </script>
 
     <script src="/javascripts/indexScript.js"></script>
